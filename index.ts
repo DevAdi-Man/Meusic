@@ -1,4 +1,8 @@
+// Only import react-native-gesture-handler on native platforms
+import 'react-native-gesture-handler';
 import { registerRootComponent } from 'expo';
+import { enableScreens } from 'react-native-screens';
+enableScreens();
 
 import App from './App';
 

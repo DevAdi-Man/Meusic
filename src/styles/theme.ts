@@ -2,7 +2,7 @@ export const theme = {
   colors: {
     white: '#fff',
     black: '#191414',
-
+    tranparent: 'transparent',
     //neutral
     neutral: (opacity: number) => `rgba(10,10,10,${opacity})`,
 

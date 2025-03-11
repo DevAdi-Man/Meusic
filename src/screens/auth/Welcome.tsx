@@ -47,7 +47,6 @@ export default function Welcome() {
         We play the music.
       </Text>
       <Text style={styles.headingText}>You enjoy it. Deal?</Text>
-      {/* <Button title='SIGN UP' style={styles.buttonStyle} /> */}
       <View>
         <Pressable style={styles.signUpBtn} onPress={()=> promptAsync()} disabled={!request}>
           <Text style={styles.signUpbuttonText}>SIGN UP</Text>

@@ -2,7 +2,7 @@
   "expo": {
     "name": "Meusic",
     "slug": "Meusic",
-    "schema":"Meusic",
+    "schema": "Meusic",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,7 +27,11 @@
     },
     "extra": {
       "API_CLIENT_ID": "666f623e66234b5fb146fcde2fb9d082",
-      "API_Client_Secret":"6cc41887fd66435aa33bfea502f20c7d"
-    }
+      "API_Client_Secret": "6cc41887fd66435aa33bfea502f20c7d"
+    },
+    "plugins": [
+      "expo-font"
+      
+    ]
   }
 }

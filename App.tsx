@@ -1,23 +1,26 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import AuthStack from './src/navigation/AuthStack';
-import AppStack from './src/navigation/AppStack';
-import { useAuthStore } from './src/store/authStore';
+import { NavigationContainer } from "@react-navigation/native";
+// import { StatusBar } from "expo-status-bar";
+import AuthStack from "./src/navigation/AuthStack";
+import AppStack from "./src/navigation/AppStack";
+import { useAuthStore } from "./src/store/authStore";
+// import { SafeAreaProvider } from "react-native-safe-area-context";
+import { StatusBar } from "react-native";
+import { AppProviders } from "./src/components/Provider";
 
-const AppNavigation:React.FC = ()=>{
-  const {token} = useAuthStore();
-  // console.log(isAuthenticated);
-  
+const AppNavigation: React.FC = () => {
+  const { token } = useAuthStore();
+  const isAuthen = true
 
-  return token ? <AppStack />: <AuthStack/>
-}
+  return isAuthen ? <AppStack /> : <AuthStack />;
+};
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <StatusBar style='auto' />
-      <AppNavigation />
-    </NavigationContainer>
+    <AppProviders>
+      <NavigationContainer>
+        <StatusBar hidden animated={true} backgroundColor="transparent" barStyle="dark-content" />
+        <AppNavigation />
+      </NavigationContainer>
+    </AppProviders>
   );
 }
