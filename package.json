@@ -9,16 +9,19 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo-google-fonts/inter": "^0.2.3",
     "@expo/vector-icons": "^14.0.4",
     "@react-native-async-storage/async-storage": "^2.1.2",
     "@react-navigation/bottom-tabs": "^7.2.1",
     "@react-navigation/elements": "^2.2.6",
     "@react-navigation/native": "^7.0.15",
     "@react-navigation/native-stack": "^7.2.1",
+    "@shopify/flash-list": "1.7.3",
     "dotenv": "^16.4.7",
     "expo": "~52.0.37",
     "expo-auth-session": "^6.0.3",
     "expo-constants": "^17.0.7",
+    "expo-font": "~13.0.4",
     "expo-status-bar": "~2.0.1",
     "react": "18.3.1",
     "react-native": "0.76.7",
@@ -28,7 +31,7 @@
     "react-native-safe-area-context": "4.12.0",
     "react-native-screens": "~4.4.0",
     "zustand": "^5.0.3",
-    "expo-font": "~13.0.4"
+    "expo-splash-screen": "~0.29.22"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

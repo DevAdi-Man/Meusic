@@ -1,0 +1,80 @@
+import { View, Text, StyleSheet, Image } from "react-native";
+import React from "react";
+import { hp, wp } from "../helper/common";
+import { fonts } from "../styles/font";
+import { theme } from "../styles/theme";
+
+type FlexAlignType = "flex-start" | "flex-end" | "center" | "stretch" | "baseline";
+
+interface SHowCaseProps {
+  imgUrl?: string;
+  singerName?: string;
+  size?: number;
+  songName?: string;
+  Top?: string;
+  borderRadius?: number;
+   alignItems?:FlexAlignType
+}
+
+const MusicShowcase: React.FC<SHowCaseProps> = ({
+  imgUrl,
+  singerName,
+  songName,
+  Top,
+  size = 50,
+  borderRadius = 13,
+  alignItems="flex-start"
+}) => {
+  return (
+    <View
+      style={[
+        styles.container,
+        {
+          width: wp(size / 1.449),
+          height: hp(size / 2.5),
+          borderRadius: 13,
+          flexDirection:'column',
+          alignItems:alignItems,
+          borderWidth:2
+        },
+      ]}
+    >
+      <Image
+        source={require("../../assets/icon.png")}
+        style={[styles.img,{
+          width: wp(size / 1.5),
+          height: hp(size / 3.3),
+          borderRadius: borderRadius,
+        }]}
+        resizeMode="cover"
+      />
+      
+      <View>
+        {singerName ? (<Text style={styles.TextName} numberOfLines={1} ellipsizeMode="tail">{singerName}</Text>): null}
+        {songName ? (<Text style={styles.TextName} numberOfLines={1} ellipsizeMode="tail">{songName}</Text>) : null}
+      </View>
+
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    marginRight: 10,
+  },
+  img: {
+    borderWidth: 2,
+    overflow:'hidden',
+    marginBottom:4
+  },
+  TextName:{
+    fontFamily:fonts.Medium,
+    fontWeight:theme.fontWeight.semiBold,
+    fontSize:wp(3.2),
+    paddingLeft:7,
+    color:theme.colors.neutral(0.4),
+    paddingBottom:5
+  }
+});
+
+export default MusicShowcase;

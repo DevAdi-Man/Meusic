@@ -6,6 +6,7 @@ import { useAuthStore } from "./src/store/authStore";
 // import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StatusBar } from "react-native";
 import { AppProviders } from "./src/components/Provider";
+import { useCustomFonts } from "./src/components/FontLoader";
 
 const AppNavigation: React.FC = () => {
   const { token } = useAuthStore();
@@ -15,6 +16,9 @@ const AppNavigation: React.FC = () => {
 };
 
 export default function App() {
+   const isReady = useCustomFonts();
+
+  if (!isReady) return null; 
   return (
     <AppProviders>
       <NavigationContainer>

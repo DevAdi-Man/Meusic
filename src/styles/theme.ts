@@ -12,7 +12,7 @@ export const theme = {
   fontWeight: {
     medium: 500 as const,
     semiBold: 600 as const,
-    bold: 700 as const,
+    bold: 800 as const,
   },
   radius: {
     xs: 10,

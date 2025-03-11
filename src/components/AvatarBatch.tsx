@@ -1,5 +1,7 @@
 import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
+import { fonts } from "../styles/font";
+import { theme } from "../styles/theme";
 
 interface AvatarProps {
   name: string;
@@ -31,7 +33,8 @@ const styles = StyleSheet.create({
   },
   initial: {
     color: "#fff",
-    fontWeight: "bold",
+    fontWeight: theme.fontWeight.medium,
+    fontFamily:fonts.Medium
   },
 });
 

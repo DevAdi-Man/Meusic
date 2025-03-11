@@ -30,8 +30,7 @@
       "API_Client_Secret": "6cc41887fd66435aa33bfea502f20c7d"
     },
     "plugins": [
-      "expo-font"
-      
+      "expo-font" 
     ]
   }
 }
