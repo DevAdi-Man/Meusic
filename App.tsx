@@ -7,12 +7,13 @@ import { useAuthStore } from "./src/store/authStore";
 import { StatusBar } from "react-native";
 import { AppProviders } from "./src/components/Provider";
 import { useCustomFonts } from "./src/components/FontLoader";
+import MainStack from "./src/navigation/MainStack";
 
 const AppNavigation: React.FC = () => {
   const { token } = useAuthStore();
   const isAuthen = true
 
-  return isAuthen ? <AppStack /> : <AuthStack />;
+  return isAuthen ? <MainStack /> : <AuthStack />;
 };
 
 export default function App() {

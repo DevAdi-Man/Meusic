@@ -38,7 +38,7 @@ const ProfileIcons = ({ color, size }: { color: string; size: number }) => {
 // Icons Defined End here ---------------------->
 export default function AppStack() {
   const insets = useSafeAreaInsets();
-  console.log("insets --> ",insets.bottom);
+  // console.log("insets --> ",insets.bottom);
   
   return (
     <bottomTab.Navigator

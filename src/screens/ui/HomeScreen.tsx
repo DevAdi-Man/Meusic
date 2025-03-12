@@ -16,12 +16,13 @@ import { hp, wp } from "../../helper/common";
 //icons Imports Starts ------------------->
 import Feather from "@expo/vector-icons/Feather";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useNavigation } from "@react-navigation/native";
 
 // Imports End here ---------------------->
 export default function HomeScreen() {
   // const isImgPresent = true;
   const [greeting, setGreeting] = useState("");
-
+  const navigation = useNavigation<any>();
   useEffect(() => {
     setGreeting(getTime());
   }, []);
@@ -43,225 +44,242 @@ export default function HomeScreen() {
         </View>
       </SafeAreaView>
 
-      <ScrollView>
-        {/* Trending Now */}
-        <View style={[styles.TrendingContainer, { marginTop: hp(3.2) }]}>
-          <View style={styles.TrendingItem}>
-            <Text style={styles.TrendingTextTitle}>Trending Now</Text>
-            <Pressable>
-              <Text style={styles.TextSeeAll}>See All</Text>
-            </Pressable>
+      <SafeAreaView style={{marginBottom:52,flex:1}}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {/* Trending Now */}
+          <View style={[styles.TrendingContainer, { marginTop: hp(3.2) }]}>
+            <View style={styles.TrendingItem}>
+              <Text style={styles.TrendingTextTitle}>Trending Now</Text>
+              <Pressable onPress={()=> navigation.navigate('TrendingNow')}>
+                <Text style={styles.TextSeeAll}>See All</Text>
+              </Pressable>
+            </View>
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            >
+              <MusicShowcase
+                songName="Band Darwaze"
+                singerName="Amrinder Gill"
+              />
+              <MusicShowcase singerName="DIVINE" songName="3:59 AM" />
+              <MusicShowcase songName="Lalkaara" singerName="Diljit Dosanjh" />
+              <MusicShowcase songName="Lalkaara" singerName="Diljit Dosanjh" />
+              <MusicShowcase songName="Lalkaara" singerName="Diljit Dosanjh" />
+              <MusicShowcase songName="Lalkaara" singerName="Diljit Dosanjh" />
+              <MusicShowcase songName="Lalkaara" singerName="Diljit Dosanjh" />
+              <MusicShowcase songName="Lalkaara" singerName="Diljit Dosanjh" />
+              <MusicShowcase songName="Lalkaara" singerName="Diljit Dosanjh" />
+            </ScrollView>
           </View>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <MusicShowcase songName="Band Darwaze" singerName="Amrinder Gill" />
-            <MusicShowcase singerName="DIVINE" songName="3:59 AM" />
-            <MusicShowcase songName="Lalkaara" singerName="Diljit Dosanjh" />
-            <MusicShowcase songName="Lalkaara" singerName="Diljit Dosanjh" />
-            <MusicShowcase songName="Lalkaara" singerName="Diljit Dosanjh" />
-            <MusicShowcase songName="Lalkaara" singerName="Diljit Dosanjh" />
-            <MusicShowcase songName="Lalkaara" singerName="Diljit Dosanjh" />
-            <MusicShowcase songName="Lalkaara" singerName="Diljit Dosanjh" />
-            <MusicShowcase songName="Lalkaara" singerName="Diljit Dosanjh" />
-          </ScrollView>
-        </View>
 
-        {/* Popular Artists */}
-        <View style={[styles.TrendingContainer]}>
-          <View style={styles.TrendingItem}>
-            <Text style={styles.TrendingTextTitle}>Popular Artists</Text>
-            <Pressable>
-              <Text style={styles.TextSeeAll}>See All</Text>
-            </Pressable>
+          {/* Popular Artists */}
+          <View style={[styles.TrendingContainer]}>
+            <View style={styles.TrendingItem}>
+              <Text style={styles.TrendingTextTitle}>Popular Artists</Text>
+              <Pressable>
+                <Text style={styles.TextSeeAll}>See All</Text>
+              </Pressable>
+            </View>
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            >
+              <MusicShowcase
+                singerName="Amrinder Gill"
+                borderRadius={100}
+                size={54}
+                alignItems="center"
+              />
+              <MusicShowcase
+                alignItems="center"
+                songName="3:59 AM"
+                borderRadius={100}
+                size={54}
+              />
+              <MusicShowcase
+                alignItems="center"
+                singerName="Diljit Dosanjh"
+                borderRadius={100}
+                size={54}
+              />
+              <MusicShowcase
+                alignItems="center"
+                singerName="Diljit Dosanjh"
+                borderRadius={100}
+                size={54}
+              />
+              <MusicShowcase
+                alignItems="center"
+                singerName="Diljit Dosanjh"
+                borderRadius={100}
+                size={54}
+              />
+              <MusicShowcase
+                alignItems="center"
+                singerName="Diljit Dosanjh"
+                borderRadius={100}
+                size={54}
+              />
+              <MusicShowcase
+                alignItems="center"
+                singerName="Diljit Dosanjh"
+                borderRadius={100}
+                size={54}
+              />
+              <MusicShowcase
+                singerName="Diljit Dosanjh"
+                borderRadius={100}
+                size={54}
+                alignItems="center"
+              />
+              <MusicShowcase
+                singerName="Diljit Dosanjh"
+                borderRadius={100}
+                size={54}
+                alignItems="center"
+              />
+            </ScrollView>
           </View>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <MusicShowcase
-              singerName="Amrinder Gill"
-              borderRadius={100}
-              size={54}
-              alignItems="center"
-            />
-            <MusicShowcase
-              alignItems="center"
-              songName="3:59 AM"
-              borderRadius={100}
-              size={54}
-            />
-            <MusicShowcase
-              alignItems="center"
-              singerName="Diljit Dosanjh"
-              borderRadius={100}
-              size={54}
-            />
-            <MusicShowcase
-              alignItems="center"
-              singerName="Diljit Dosanjh"
-              borderRadius={100}
-              size={54}
-            />
-            <MusicShowcase
-              alignItems="center"
-              singerName="Diljit Dosanjh"
-              borderRadius={100}
-              size={54}
-            />
-            <MusicShowcase
-              alignItems="center"
-              singerName="Diljit Dosanjh"
-              borderRadius={100}
-              size={54}
-            />
-            <MusicShowcase
-              alignItems="center"
-              singerName="Diljit Dosanjh"
-              borderRadius={100}
-              size={54}
-            />
-            <MusicShowcase
-              singerName="Diljit Dosanjh"
-              borderRadius={100}
-              size={54}
-              alignItems="center"
-            />
-            <MusicShowcase
-              singerName="Diljit Dosanjh"
-              borderRadius={100}
-              size={54}
-              alignItems="center"
-            />
-          </ScrollView>
-        </View>
 
-        {/* Top Charts */}
-        <View style={[styles.TrendingContainer]}>
-          <View style={styles.TrendingItem}>
-            <Text style={styles.TrendingTextTitle}>Top Charts</Text>
-            <Pressable>
-              <Text style={styles.TextSeeAll}>See All</Text>
-            </Pressable>
+          {/* Top Charts */}
+          <View style={[styles.TrendingContainer]}>
+            <View style={styles.TrendingItem}>
+              <Text style={styles.TrendingTextTitle}>Top Charts</Text>
+              <Pressable>
+                <Text style={styles.TextSeeAll}>See All</Text>
+              </Pressable>
+            </View>
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            >
+              <MusicShowcase
+                // singerName="Amrinder Gill"
+                borderRadius={45}
+                size={50}
+                alignItems="center"
+              />
+              <MusicShowcase
+                alignItems="center"
+                // songName="3:59 AM"
+                borderRadius={45}
+                size={50}
+              />
+              <MusicShowcase
+                alignItems="center"
+                // singerName="Diljit Dosanjh"
+                borderRadius={45}
+                size={50}
+              />
+              <MusicShowcase
+                alignItems="center"
+                // singerName="Diljit Dosanjh"
+                borderRadius={45}
+                size={50}
+              />
+              <MusicShowcase
+                alignItems="center"
+                // singerName="Diljit Dosanjh"
+                borderRadius={45}
+                size={50}
+              />
+              <MusicShowcase
+                alignItems="center"
+                // singerName="Diljit Dosanjh"
+                borderRadius={45}
+                size={50}
+              />
+              <MusicShowcase
+                alignItems="center"
+                // singerName="Diljit Dosanjh"
+                borderRadius={45}
+                size={50}
+              />
+              <MusicShowcase
+                // singerName="Diljit Dosanjh"
+                borderRadius={45}
+                size={50}
+                alignItems="center"
+              />
+              <MusicShowcase
+                // singerName="Diljit Dosanjh"
+                borderRadius={45}
+                size={50}
+                alignItems="center"
+              />
+            </ScrollView>
           </View>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <MusicShowcase
-              // singerName="Amrinder Gill"
-              borderRadius={45}
-              size={50}
-              alignItems="center"
-            />
-            <MusicShowcase
-              alignItems="center"
-              // songName="3:59 AM"
-              borderRadius={45}
-              size={50}
-            />
-            <MusicShowcase
-              alignItems="center"
-              // singerName="Diljit Dosanjh"
-              borderRadius={45}
-              size={50}
-            />
-            <MusicShowcase
-              alignItems="center"
-              // singerName="Diljit Dosanjh"
-              borderRadius={45}
-              size={50}
-            />
-            <MusicShowcase
-              alignItems="center"
-              // singerName="Diljit Dosanjh"
-              borderRadius={45}
-              size={50}
-            />
-            <MusicShowcase
-              alignItems="center"
-              // singerName="Diljit Dosanjh"
-              borderRadius={45}
-              size={50}
-            />
-            <MusicShowcase
-              alignItems="center"
-              // singerName="Diljit Dosanjh"
-              borderRadius={45}
-              size={50}
-            />
-            <MusicShowcase
-              // singerName="Diljit Dosanjh"
-              borderRadius={45}
-              size={50}
-              alignItems="center"
-            />
-            <MusicShowcase
-              // singerName="Diljit Dosanjh"
-              borderRadius={45}
-              size={50}
-              alignItems="center"
-            />
-          </ScrollView>
-        </View>
 
-        <View style={[styles.TrendingContainer]}>
-          <View style={styles.TrendingItem}>
-            <Text style={styles.TrendingTextTitle}>Top Charts</Text>
-            <Pressable>
-              <Text style={styles.TextSeeAll}>See All</Text>
-            </Pressable>
+          <View style={[styles.TrendingContainer]}>
+            <View style={styles.TrendingItem}>
+              <Text style={styles.TrendingTextTitle}>Top Charts</Text>
+              <Pressable>
+                <Text style={styles.TextSeeAll}>See All</Text>
+              </Pressable>
+            </View>
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            >
+              <MusicShowcase
+                // singerName="Amrinder Gill"
+                borderRadius={45}
+                size={50}
+                alignItems="center"
+              />
+              <MusicShowcase
+                alignItems="center"
+                // songName="3:59 AM"
+                borderRadius={45}
+                size={50}
+              />
+              <MusicShowcase
+                alignItems="center"
+                // singerName="Diljit Dosanjh"
+                borderRadius={45}
+                size={50}
+              />
+              <MusicShowcase
+                alignItems="center"
+                // singerName="Diljit Dosanjh"
+                borderRadius={45}
+                size={50}
+              />
+              <MusicShowcase
+                alignItems="center"
+                // singerName="Diljit Dosanjh"
+                borderRadius={45}
+                size={50}
+              />
+              <MusicShowcase
+                alignItems="center"
+                // singerName="Diljit Dosanjh"
+                borderRadius={45}
+                size={50}
+              />
+              <MusicShowcase
+                alignItems="center"
+                // singerName="Diljit Dosanjh"
+                borderRadius={45}
+                size={50}
+              />
+              <MusicShowcase
+                // singerName="Diljit Dosanjh"
+                borderRadius={45}
+                size={50}
+                alignItems="center"
+              />
+              <MusicShowcase
+                // singerName="Diljit Dosanjh"
+                borderRadius={45}
+                size={50}
+                alignItems="center"
+              />
+            </ScrollView>
           </View>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <MusicShowcase
-              // singerName="Amrinder Gill"
-              borderRadius={45}
-              size={50}
-              alignItems="center"
-            />
-            <MusicShowcase
-              alignItems="center"
-              // songName="3:59 AM"
-              borderRadius={45}
-              size={50}
-            />
-            <MusicShowcase
-              alignItems="center"
-              // singerName="Diljit Dosanjh"
-              borderRadius={45}
-              size={50}
-            />
-            <MusicShowcase
-              alignItems="center"
-              // singerName="Diljit Dosanjh"
-              borderRadius={45}
-              size={50}
-            />
-            <MusicShowcase
-              alignItems="center"
-              // singerName="Diljit Dosanjh"
-              borderRadius={45}
-              size={50}
-            />
-            <MusicShowcase
-              alignItems="center"
-              // singerName="Diljit Dosanjh"
-              borderRadius={45}
-              size={50}
-            />
-            <MusicShowcase
-              alignItems="center"
-              // singerName="Diljit Dosanjh"
-              borderRadius={45}
-              size={50}
-            />
-            <MusicShowcase
-              // singerName="Diljit Dosanjh"
-              borderRadius={45}
-              size={50}
-              alignItems="center"
-            />
-            <MusicShowcase
-              // singerName="Diljit Dosanjh"
-              borderRadius={45}
-              size={50}
-              alignItems="center"
-            />
-          </ScrollView>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </SafeAreaView>
     </View>
   );
 }

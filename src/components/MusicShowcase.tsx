@@ -31,11 +31,11 @@ const MusicShowcase: React.FC<SHowCaseProps> = ({
         styles.container,
         {
           width: wp(size / 1.449),
-          height: hp(size / 2.5),
+          // height: hp(size / 2.5),
           borderRadius: 13,
           flexDirection:'column',
           alignItems:alignItems,
-          borderWidth:2
+          // borderWidth:2
         },
       ]}
     >

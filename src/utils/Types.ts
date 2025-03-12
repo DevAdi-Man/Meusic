@@ -5,6 +5,7 @@ export type AuthRootStackParamList = {
   Welcome: undefined;
 };
 
+
 // this for getting screen height and width percentage.
 export interface PercentageFunction {
   (percentage: number): number;
