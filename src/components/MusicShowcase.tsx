@@ -4,7 +4,12 @@ import { hp, wp } from "../helper/common";
 import { fonts } from "../styles/font";
 import { theme } from "../styles/theme";
 
-type FlexAlignType = "flex-start" | "flex-end" | "center" | "stretch" | "baseline";
+type FlexAlignType =
+  | "flex-start"
+  | "flex-end"
+  | "center"
+  | "stretch"
+  | "baseline";
 
 interface SHowCaseProps {
   imgUrl?: string;
@@ -13,7 +18,8 @@ interface SHowCaseProps {
   songName?: string;
   Top?: string;
   borderRadius?: number;
-   alignItems?:FlexAlignType
+  alignItems?: FlexAlignType;
+  height?: number;
 }
 
 const MusicShowcase: React.FC<SHowCaseProps> = ({
@@ -23,7 +29,7 @@ const MusicShowcase: React.FC<SHowCaseProps> = ({
   Top,
   size = 50,
   borderRadius = 13,
-  alignItems="flex-start"
+  alignItems = "flex-start",
 }) => {
   return (
     <View
@@ -33,27 +39,37 @@ const MusicShowcase: React.FC<SHowCaseProps> = ({
           width: wp(size / 1.449),
           // height: hp(size / 2.5),
           borderRadius: 13,
-          flexDirection:'column',
-          alignItems:alignItems,
+          flexDirection: "column",
+          alignItems: alignItems,
           // borderWidth:2
         },
       ]}
     >
       <Image
         source={require("../../assets/icon.png")}
-        style={[styles.img,{
-          width: wp(size / 1.5),
-          height: hp(size / 3.3),
-          borderRadius: borderRadius,
-        }]}
+        style={[
+          styles.img,
+          {
+            width: wp(size / 1.5),
+            height: hp(size / 3.3),
+            borderRadius: borderRadius,
+          },
+        ]}
         resizeMode="cover"
       />
-      
-      <View>
-        {singerName ? (<Text style={styles.TextName} numberOfLines={1} ellipsizeMode="tail">{singerName}</Text>): null}
-        {songName ? (<Text style={styles.TextName} numberOfLines={1} ellipsizeMode="tail">{songName}</Text>) : null}
-      </View>
 
+      <View>
+        {singerName ? (
+          <Text style={styles.TextName} numberOfLines={1} ellipsizeMode="tail">
+            {singerName}
+          </Text>
+        ) : null}
+        {songName ? (
+          <Text style={styles.TextName} numberOfLines={1} ellipsizeMode="tail">
+            {songName}
+          </Text>
+        ) : null}
+      </View>
     </View>
   );
 };
@@ -64,17 +80,17 @@ const styles = StyleSheet.create({
   },
   img: {
     borderWidth: 2,
-    overflow:'hidden',
-    marginBottom:4
+    overflow: "hidden",
+    marginBottom: 4,
   },
-  TextName:{
-    fontFamily:fonts.Medium,
-    fontWeight:theme.fontWeight.semiBold,
-    fontSize:wp(3.2),
-    paddingLeft:7,
-    color:theme.colors.neutral(0.4),
-    paddingBottom:5
-  }
+  TextName: {
+    fontFamily: fonts.Medium,
+    fontWeight: theme.fontWeight.semiBold,
+    fontSize: wp(3.2),
+    paddingLeft: 7,
+    color: theme.colors.neutral(0.4),
+    paddingBottom: 5,
+  },
 });
 
 export default MusicShowcase;

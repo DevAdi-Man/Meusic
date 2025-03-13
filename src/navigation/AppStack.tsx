@@ -61,7 +61,7 @@ export default function AppStack() {
         options={{ tabBarIcon: HomeIcons }}
       />
       <bottomTab.Screen
-        name="Expore"
+        name="Explore"
         component={ExploreScreen}
         options={{ tabBarIcon: ExploreIcons }}
       />

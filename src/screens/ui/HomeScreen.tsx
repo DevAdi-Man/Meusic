@@ -39,18 +39,20 @@ export default function HomeScreen() {
 
         {/* Search icons (SAN means search and Notifications container) */}
         <View style={styles.SANContainer}>
-          <Feather name="search" size={32} color="black" />
+          <Pressable onPress={()=>navigation.navigate('Explore')}>
+            <Feather name="search" size={32} color="black" />
+          </Pressable>
           <Ionicons name="notifications" size={28} color="black" />
         </View>
       </SafeAreaView>
 
-      <SafeAreaView style={{marginBottom:52,flex:1}}>
+      <SafeAreaView style={{ marginBottom: 52, flex: 1 }}>
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* Trending Now */}
           <View style={[styles.TrendingContainer, { marginTop: hp(3.2) }]}>
             <View style={styles.TrendingItem}>
               <Text style={styles.TrendingTextTitle}>Trending Now</Text>
-              <Pressable onPress={()=> navigation.navigate('TrendingNow')}>
+              <Pressable onPress={() => navigation.navigate("TrendingNow")}>
                 <Text style={styles.TextSeeAll}>See All</Text>
               </Pressable>
             </View>
@@ -77,7 +79,7 @@ export default function HomeScreen() {
           <View style={[styles.TrendingContainer]}>
             <View style={styles.TrendingItem}>
               <Text style={styles.TrendingTextTitle}>Popular Artists</Text>
-              <Pressable>
+              <Pressable onPress={() => navigation.navigate("PopularArtists")}>
                 <Text style={styles.TextSeeAll}>See All</Text>
               </Pressable>
             </View>
@@ -146,7 +148,7 @@ export default function HomeScreen() {
           <View style={[styles.TrendingContainer]}>
             <View style={styles.TrendingItem}>
               <Text style={styles.TrendingTextTitle}>Top Charts</Text>
-              <Pressable>
+              <Pressable onPress={() => navigation.navigate("TopCharts")}>
                 <Text style={styles.TextSeeAll}>See All</Text>
               </Pressable>
             </View>

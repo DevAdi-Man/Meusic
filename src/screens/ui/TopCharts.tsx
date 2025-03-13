@@ -1,4 +1,3 @@
-// import { View, Text } from 'react-native'
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SearchAndBackHeader from "../../components/SearchAndBackHeader";
@@ -6,15 +5,14 @@ import { FlatList, StyleSheet } from "react-native";
 import { data } from "../../utils/data";
 import MusicShowcase from "../../components/MusicShowcase";
 
-export default function TrendingNow() {
+export default function TopCharts() {
   return (
     <SafeAreaView style={styles.container}>
-      <SearchAndBackHeader title="Trending Now" />
+      <SearchAndBackHeader title="Top Charts" />
       <FlatList
         data={data}
         keyExtractor={(_, index) => index.toString()}
         renderItem={({ item }) => {
-          // console.log('item--> ',item.song)
           return (
             <MusicShowcase
               imgUrl={item.image}
@@ -25,13 +23,12 @@ export default function TrendingNow() {
         }}
         showsVerticalScrollIndicator={false}
         numColumns={2}
-        contentContainerStyle={styles.listContainer}
+        contentContainerStyle={styles.listContainer} 
         columnWrapperStyle={styles.row} 
       />
     </SafeAreaView>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
