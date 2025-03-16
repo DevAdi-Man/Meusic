@@ -41,7 +41,6 @@ const MusicShowcase: React.FC<SHowCaseProps> = ({
           borderRadius: 13,
           flexDirection: "column",
           alignItems: alignItems,
-          // borderWidth:2
         },
       ]}
     >

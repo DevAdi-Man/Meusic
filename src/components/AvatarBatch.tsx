@@ -10,10 +10,12 @@ interface AvatarProps {
 }
 
 const Avatar: React.FC<AvatarProps> = ({ name, imageUrl, size = 50 }) => {
+  // console.log('imgeurl --> ',imageUrl)
+  const isLocalImage = typeof imageUrl !== 'string';
   return (
     <View style={[styles.container, { width: size, height: size, borderRadius: size / 2 }]}>
       {imageUrl ? (
-        <Image source={{ uri: imageUrl }} style={[styles.image, { width: size, height: size, borderRadius: size / 2 }]} />
+        <Image source={isLocalImage ? imageUrl : { uri: imageUrl } } style={[styles.image, { width: size, height: size, borderRadius: size / 2 }]} />
       ) : (
         <Text style={[styles.initial, { fontSize: size / 2.5 }]}>{name.charAt(0).toUpperCase()}</Text>
       )}
