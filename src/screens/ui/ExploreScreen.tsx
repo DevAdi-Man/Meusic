@@ -18,7 +18,7 @@ import { theme } from "../../styles/theme";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Card from "../../components/Card";
 
-const data = Array.from({ length: 20 }, (_, i) => ({
+const data = Array.from({ length: 32 }, (_, i) => ({
   id: i.toString(),
   title: `Item ${i + 1}`,
 }));

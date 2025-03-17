@@ -39,7 +39,7 @@ export default function HomeScreen() {
 
         {/* Search icons (SAN means search and Notifications container) */}
         <View style={styles.SANContainer}>
-          <Pressable onPress={()=>navigation.navigate('Explore')}>
+          <Pressable onPress={() => navigation.navigate("Explore")}>
             <Feather name="search" size={32} color="black" />
           </Pressable>
           <Ionicons name="notifications" size={28} color="black" />
@@ -59,6 +59,7 @@ export default function HomeScreen() {
             <ScrollView
               horizontal={true}
               showsHorizontalScrollIndicator={false}
+              style={styles.TreandingScroll}
             >
               <MusicShowcase
                 songName="Band Darwaze"
@@ -86,6 +87,7 @@ export default function HomeScreen() {
             <ScrollView
               horizontal={true}
               showsHorizontalScrollIndicator={false}
+              style={styles.TreandingScroll}
             >
               <MusicShowcase
                 singerName="Amrinder Gill"
@@ -155,6 +157,7 @@ export default function HomeScreen() {
             <ScrollView
               horizontal={true}
               showsHorizontalScrollIndicator={false}
+              style={styles.TreandingScroll}
             >
               <MusicShowcase
                 // singerName="Amrinder Gill"
@@ -223,6 +226,7 @@ export default function HomeScreen() {
             <ScrollView
               horizontal={true}
               showsHorizontalScrollIndicator={false}
+              style={styles.TreandingScroll}
             >
               <MusicShowcase
                 // singerName="Amrinder Gill"
@@ -325,14 +329,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   TrendingContainer: {
-    flexDirection: "column",
-    // marginTop: hp(4),
-    marginHorizontal: wp(3),
+    // flexDirection: "column",
   },
   TrendingItem: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    paddingHorizontal: wp(3),
     // borderWidth: 2,
   },
   TrendingTextTitle: {
@@ -346,5 +349,8 @@ const styles = StyleSheet.create({
     fontWeight: theme.fontWeight.medium,
     fontSize: wp(4.2),
     color: theme.colors.green,
+  },
+  TreandingScroll: {
+    paddingHorizontal: wp(2),
   },
 });
