@@ -10,7 +10,7 @@ interface AvatarProps {
 }
 
 const Avatar: React.FC<AvatarProps> = ({ name, imageUrl, size = 50 }) => {
-  // console.log('imgeurl --> ',imageUrl)
+
   const isLocalImage = typeof imageUrl !== 'string';
   return (
     <View style={[styles.container, { width: size, height: size, borderRadius: size / 2 }]}>
