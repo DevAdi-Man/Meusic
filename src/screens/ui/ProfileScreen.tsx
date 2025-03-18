@@ -6,8 +6,52 @@ import { fonts } from "../../styles/font";
 import { theme } from "../../styles/theme";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 import Avatar from "../../components/AvatarBatch";
+import { useNavigation } from "@react-navigation/native";
+import MenuItem from "../../components/MenuItem";
 
 export default function ProfileScreen() {
+  const navigation = useNavigation<any>();
+  const handleMenuPress = (title: string) => {
+    navigation.navigate(title);
+  };
+  const menuData = [
+    {
+      title: "Profile",
+      icon: "user",
+      iconLibrary: "FontAwesome",
+      onPress: () => handleMenuPress("UserInfo"),
+    },
+    {
+      title: "Notification",
+      icon: "notifications",
+      iconLibrary: "Ionicons",
+      onPress: () => handleMenuPress("Notification"),
+    },
+    {
+      title: "Audio&Video",
+      icon: "mic",
+      iconLibrary: "Feather",
+      onPress: () => handleMenuPress("AudioVideo"),
+    },
+    {
+      title: "Playback",
+      icon: "play-box-outline",
+      iconLibrary: "MaterialCommunityIcons",
+      onPress: () => handleMenuPress("Playback"),
+    },
+    {
+      title: "DataSaver&Storage",
+      icon: "checkbox",
+      iconLibrary: "Ionicons",
+      onPress: () => handleMenuPress("DataSaverStorage"),
+    },
+    {
+      title: "Security",
+      icon: "security",
+      iconLibrary: "MaterialIcons",
+      onPress: () => handleMenuPress("Security"),
+    },
+  ];
   return (
     <SafeAreaView style={styles.container}>
       {/* Library Header Seaction  */}
@@ -52,6 +96,19 @@ export default function ProfileScreen() {
       {/* Ads Banner */}
 
       {/* Services components */}
+      <View style={{ flex: 1, paddingHorizontal: 15, paddingTop: 20 }}>
+        {menuData.map((item, index) => (
+          <MenuItem
+            key={index}
+            title={item.title}
+            icons={item.icon}
+            onPress={item.onPress}
+            iconLibrary={
+              item.iconLibrary as "MaterialIcons" | "FontAwesome" | "Ionicons"
+            }
+          />
+        ))}
+      </View>
     </SafeAreaView>
   );
 }
@@ -107,6 +164,6 @@ const styles = StyleSheet.create({
   },
   userProfileTextEmail: {
     fontFamily: fonts.Light,
-    fontSize:wp(3.4)
+    fontSize: wp(3.4),
   },
 });

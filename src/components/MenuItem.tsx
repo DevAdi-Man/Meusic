@@ -1,6 +1,12 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
-import { FontAwesome, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import {
+  Feather,
+  FontAwesome,
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import { wp } from "../helper/common";
 import { theme } from "../styles/theme";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -8,7 +14,12 @@ import { fonts } from "../styles/font";
 interface MenuItemProps {
   title: string;
   icons: string;
-  iconLibrary?: "MaterialIcons" | "FontAwesome" | "Ionicons";
+  iconLibrary?:
+    | "MaterialIcons"
+    | "FontAwesome"
+    | "Ionicons"
+    | "MaterialCommunityIcons"
+    | "Feather";
   onPress?: () => void;
 }
 
@@ -23,18 +34,27 @@ const MenuItem: React.FC<MenuItemProps> = ({
       ? MaterialIcons
       : iconLibrary === "FontAwesome"
       ? FontAwesome
-      : Ionicons;
+      : iconLibrary === "Ionicons"
+      ? Ionicons
+      : iconLibrary === "MaterialCommunityIcons"
+      ? MaterialCommunityIcons
+      : Feather;
+      // : iconLibrary === "Feather";
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
       <View style={styles.content}>
         <IconComponent
           name={icons as any}
           color="white"
-          style={{ marginRight: 8, color: theme.colors.green ,fontSize:wp(6.3)}}
+          style={{
+            marginRight: 8,
+            color: theme.colors.green,
+            fontSize: wp(6.3),
+          }}
         />
         <Text style={styles.title}>{title}</Text>
       </View>
-      <AntDesign name="right" style={{fontSize:wp(6)}} color="black" />
+      <AntDesign name="right" style={{ fontSize: wp(6) }} color="black" />
     </TouchableOpacity>
   );
 };
@@ -44,8 +64,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: 10,
-    paddingHorizontal:5,
-    justifyContent:'space-between',
+    paddingHorizontal: 5,
+    justifyContent: "space-between",
     // borderWidth:2
   },
   content: {
@@ -57,8 +77,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: wp(5.5),
     color: theme.colors.black,
-    fontFamily:fonts.Regular,
-    fontWeight:theme.fontWeight.semiBold,
+    fontFamily: fonts.Regular,
+    fontWeight: theme.fontWeight.semiBold,
   },
 });
 

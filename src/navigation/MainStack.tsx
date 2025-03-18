@@ -12,6 +12,12 @@ import AlbumsScreen from "../screens/ui/AlbumsScreen";
 import SongsScreen from "../screens/ui/SongsScreen";
 import ArtistsScreen from "../screens/ui/ArtistsScreen";
 import HistorysScreen from "../screens/ui/HistorysScreen";
+import UserInfo from "../screens/ui/UserInfo";
+import Notification from "../screens/ui/Notification";
+import AudioVideo from "../screens/ui/AudioVideo";
+import Playback from "../screens/ui/Playback";
+import DataSaverStorage from "../screens/ui/DataSaverStorage";
+import Security from "../screens/ui/Security";
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +36,12 @@ export default function MainStack() {
       <Stack.Screen name='Songs' component={SongsScreen} />
       <Stack.Screen name='Artists' component={ArtistsScreen} />
       <Stack.Screen name='Historys' component={HistorysScreen}/>
+      <Stack.Screen name='UserInfo' component={UserInfo} />
+      <Stack.Screen name='Notification' component={Notification} />
+      <Stack.Screen name='AudioVideo' component={AudioVideo} />
+      <Stack.Screen name="Playback" component={Playback} />
+      <Stack.Screen name="DataSaverStorage" component={DataSaverStorage} />
+      <Stack.Screen name="Security"  component={Security}/>
     </Stack.Navigator>
   );
 }
