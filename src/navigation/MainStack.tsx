@@ -18,6 +18,7 @@ import AudioVideo from "../screens/ui/AudioVideo";
 import Playback from "../screens/ui/Playback";
 import DataSaverStorage from "../screens/ui/DataSaverStorage";
 import Security from "../screens/ui/Security";
+import EditProfile from "../screens/ui/EditProfile";
 
 const Stack = createNativeStackNavigator();
 
@@ -42,6 +43,7 @@ export default function MainStack() {
       <Stack.Screen name="Playback" component={Playback} />
       <Stack.Screen name="DataSaverStorage" component={DataSaverStorage} />
       <Stack.Screen name="Security"  component={Security}/>
+      <Stack.Screen name="EditProfile" component={EditProfile} />
     </Stack.Navigator>
   );
 }

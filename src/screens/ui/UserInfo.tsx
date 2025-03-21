@@ -53,7 +53,7 @@ const UserInfo = () => {
             </View>
             {/* Edit buttom */}
             <View style={styles.editContainer}>
-              <Pressable style={styles.editButton}>
+              <Pressable style={styles.editButton} onPress={()=> navigation.navigate('EditProfile')}>
                 <Text style={styles.buttonText}>Edit Profile</Text>
               </Pressable>
             </View>
