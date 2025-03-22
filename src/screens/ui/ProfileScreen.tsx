@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { hp, wp } from "../../helper/common";
@@ -8,9 +8,11 @@ import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 import Avatar from "../../components/AvatarBatch";
 import { useNavigation } from "@react-navigation/native";
 import MenuItem from "../../components/MenuItem";
+import { useAuthStore } from "../../store/authStore";
 
 export default function ProfileScreen() {
   const navigation = useNavigation<any>();
+  const {clearToken} = useAuthStore();
   const handleMenuPress = (title: string) => {
     navigation.navigate(title);
   };
@@ -96,7 +98,7 @@ export default function ProfileScreen() {
       {/* Ads Banner */}
 
       {/* Services components */}
-      <View style={{ flex: 1, paddingHorizontal: 15, paddingTop: 20 }}>
+      <View style={{  paddingHorizontal: 15, paddingTop: 20 }}>
         {menuData.map((item, index) => (
           <MenuItem
             key={index}
@@ -109,6 +111,11 @@ export default function ProfileScreen() {
           />
         ))}
       </View>
+
+      {/* Logout button */}
+      <Pressable style={styles.logoutBtn} onPress={()=> clearToken()}>
+        <Text style={styles.logoutText}>Logout</Text>
+      </Pressable>
     </SafeAreaView>
   );
 }
@@ -166,4 +173,19 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Light,
     fontSize: wp(3.4),
   },
+  logoutBtn:{
+    borderWidth:1,
+    padding:10,
+    marginHorizontal:wp(28),
+    alignItems:'center',
+    borderRadius:10,
+    backgroundColor:theme.colors.green,
+    marginVertical:hp(2),
+    borderCurve:'continuous',
+  },
+  logoutText:{
+    color:theme.colors.white,
+    fontFamily:fonts.Regular,
+    fontSize:wp(5),
+  }
 });

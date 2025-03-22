@@ -17,12 +17,16 @@ import { hp, wp } from "../../helper/common";
 import Feather from "@expo/vector-icons/Feather";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
+import { useUserStore } from "../../store/userStore";
 
 // Imports End here ---------------------->
 export default function HomeScreen() {
   // const isImgPresent = true;
   const [greeting, setGreeting] = useState("");
   const navigation = useNavigation<any>();
+  // fetching user 
+  const {user} = useUserStore();
+
   useEffect(() => {
     setGreeting(getTime());
   }, []);
@@ -30,11 +34,11 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
         {/* Profile Info */}
-        <Avatar name="Aditya" size={60} />
+        <Avatar name={user?.display_name ?? ''} imageUrl={user?.images[0].url} size={60} />
         <View style={styles.userProfile}>
           <Text style={styles.TextGreeting}>{greeting}</Text>
           {/* user name */}
-          <Text style={styles.userNameText}>Aditya raj</Text>
+          <Text style={styles.userNameText}>{user?.display_name.toUpperCase()}</Text>
         </View>
 
         {/* Search icons (SAN means search and Notifications container) */}

@@ -14,7 +14,6 @@ const discovery = {
 
 export default function Welcome() {
   const {setToken,token} = useAuthStore();
-  console.log('token : ',JSON.stringify(token));
   
   // Create authentication request
   const [request, response, promptAsync] = AuthSession.useAuthRequest(

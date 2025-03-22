@@ -1,29 +1,40 @@
 import { NavigationContainer } from "@react-navigation/native";
-// import { StatusBar } from "expo-status-bar";
 import AuthStack from "./src/navigation/AuthStack";
-import AppStack from "./src/navigation/AppStack";
 import { useAuthStore } from "./src/store/authStore";
-// import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StatusBar } from "react-native";
 import { AppProviders } from "./src/components/Provider";
 import { useCustomFonts } from "./src/components/FontLoader";
 import MainStack from "./src/navigation/MainStack";
+import { useUserStore } from "./src/store/userStore";
+import { useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AppNavigation: React.FC = () => {
   const { token } = useAuthStore();
-  const isAuthen = true
+  const { getUser } = useUserStore();
+  useEffect(() => {
+    // console.log("Token from Zustand:", token);
+    if (token) {
+      getUser();
+    }
+  }, [token]);
 
-  return isAuthen ? <MainStack /> : <AuthStack />;
+  return token ? <MainStack /> : <AuthStack />;
 };
 
 export default function App() {
-   const isReady = useCustomFonts();
+  const isReady = useCustomFonts();
 
-  if (!isReady) return null; 
+  if (!isReady) return null;
   return (
     <AppProviders>
       <NavigationContainer>
-        <StatusBar hidden animated={true} backgroundColor="transparent" barStyle="dark-content" />
+        <StatusBar
+          hidden
+          animated={true}
+          backgroundColor="transparent"
+          barStyle="dark-content"
+        />
         <AppNavigation />
       </NavigationContainer>
     </AppProviders>
