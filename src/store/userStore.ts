@@ -13,8 +13,9 @@ export const useUserStore = create<UserState>()(
         if (!token) return;
         try {
           const userData: UserProp = await fetchUser(token);
-          console.log("userData ", userData.images[0].url);
+          // console.log("userData ", userData.images[0].url);
 
+          await AsyncStorage.setItem("user",JSON.stringify(userData));
           set({
             user: {
               id: userData.id,

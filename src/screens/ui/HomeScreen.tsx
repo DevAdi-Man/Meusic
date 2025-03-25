@@ -18,14 +18,26 @@ import Feather from "@expo/vector-icons/Feather";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import { useUserStore } from "../../store/userStore";
+import useAlbumStore from "../../store/useAlbum";
+import { axiosInstance } from "../../api/user.api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Imports End here ---------------------->
 export default function HomeScreen() {
   // const isImgPresent = true;
   const [greeting, setGreeting] = useState("");
   const navigation = useNavigation<any>();
-  // fetching user 
-  const {user} = useUserStore();
+  // fetching user
+  const { user } = useUserStore();
+  //fetching all album data
+  const { albums,setAlbums } = useAlbumStore();
+
+  useEffect(() => {
+    // console.log('album --> ',albums)
+    setAlbums();
+
+    console.log('album --> ',albums)
+  }, []);
 
   useEffect(() => {
     setGreeting(getTime());
@@ -34,11 +46,17 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
         {/* Profile Info */}
-        <Avatar name={user?.display_name ?? ''} imageUrl={user?.images[0].url} size={60} />
+        <Avatar
+          name={user?.display_name ?? ""}
+          imageUrl={user?.images[0].url}
+          size={60}
+        />
         <View style={styles.userProfile}>
           <Text style={styles.TextGreeting}>{greeting}</Text>
           {/* user name */}
-          <Text style={styles.userNameText}>{user?.display_name.toUpperCase()}</Text>
+          <Text style={styles.userNameText}>
+            {user?.display_name.toUpperCase()}
+          </Text>
         </View>
 
         {/* Search icons (SAN means search and Notifications container) */}
