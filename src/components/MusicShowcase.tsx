@@ -45,7 +45,7 @@ const MusicShowcase: React.FC<SHowCaseProps> = ({
       ]}
     >
       <Image
-        source={require("../../assets/icon.png")}
+        source={imgUrl ? { uri: imgUrl } : require("../../assets/icon.png")}
         style={[
           styles.img,
           {
@@ -76,9 +76,10 @@ const MusicShowcase: React.FC<SHowCaseProps> = ({
 const styles = StyleSheet.create({
   container: {
     marginRight: 10,
+    marginBottom:12,
   },
   img: {
-    borderWidth: 2,
+    // borderWidth: 2,
     overflow: "hidden",
     marginBottom: 4,
   },

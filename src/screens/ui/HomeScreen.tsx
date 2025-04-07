@@ -19,8 +19,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import { useUserStore } from "../../store/userStore";
 import useAlbumStore from "../../store/useAlbum";
-import { axiosInstance } from "../../api/user.api";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useTrendingStore } from "../../store/useMusicStore";
+import { fetchTrendingTracks } from "../../api/music.api";
 
 // Imports End here ---------------------->
 export default function HomeScreen() {
@@ -30,25 +30,24 @@ export default function HomeScreen() {
   // fetching user
   const { user } = useUserStore();
   //fetching all album data
-  const { albums,setAlbums } = useAlbumStore();
+  const { albums, setAlbums } = useAlbumStore();
+  const trending = useTrendingStore((state) => state.trending);
 
-  useEffect(() => {
-    // console.log('album --> ',albums)
-    setAlbums();
 
-    console.log('album --> ',albums)
-  }, []);
-
+  console.log("user is ---> ", user);
   useEffect(() => {
     setGreeting(getTime());
+    setAlbums();
+    fetchTrendingTracks();
   }, []);
+
   return (
     <View style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
         {/* Profile Info */}
         <Avatar
           name={user?.display_name ?? ""}
-          imageUrl={user?.images[0].url}
+          imageUrl={user?.images[0]?.url}
           size={60}
         />
         <View style={styles.userProfile}>
@@ -83,18 +82,14 @@ export default function HomeScreen() {
               showsHorizontalScrollIndicator={false}
               style={styles.TreandingScroll}
             >
-              <MusicShowcase
-                songName="Band Darwaze"
-                singerName="Amrinder Gill"
-              />
-              <MusicShowcase singerName="DIVINE" songName="3:59 AM" />
-              <MusicShowcase songName="Lalkaara" singerName="Diljit Dosanjh" />
-              <MusicShowcase songName="Lalkaara" singerName="Diljit Dosanjh" />
-              <MusicShowcase songName="Lalkaara" singerName="Diljit Dosanjh" />
-              <MusicShowcase songName="Lalkaara" singerName="Diljit Dosanjh" />
-              <MusicShowcase songName="Lalkaara" singerName="Diljit Dosanjh" />
-              <MusicShowcase songName="Lalkaara" singerName="Diljit Dosanjh" />
-              <MusicShowcase songName="Lalkaara" singerName="Diljit Dosanjh" />
+              {trending.map((song) => (
+                <MusicShowcase
+                  key={song.id}
+                  songName={song.songName}
+                  singerName={song.singerName}
+                  imgUrl={song.imgUrl}
+                />
+              ))}
             </ScrollView>
           </View>
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Platform, StyleSheet } from "react-native";
 // Screen Imports Starts ---------------->
@@ -16,6 +16,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { theme } from "../styles/theme";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useUserStore } from "../store/userStore";
 // Imports End here ---------------------->
 
 const bottomTab = createBottomTabNavigator();
@@ -38,9 +39,11 @@ const ProfileIcons = ({ color, size }: { color: string; size: number }) => {
 // Icons Defined End here ---------------------->
 export default function AppStack() {
   const insets = useSafeAreaInsets();
+  const {getUser} = useUserStore();
 
-  
-  
+  useEffect(()=>{
+    getUser();
+  },[])
   return (
     <bottomTab.Navigator
       initialRouteName="Home"

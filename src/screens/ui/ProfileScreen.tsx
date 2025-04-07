@@ -9,10 +9,14 @@ import Avatar from "../../components/AvatarBatch";
 import { useNavigation } from "@react-navigation/native";
 import MenuItem from "../../components/MenuItem";
 import { useAuthStore } from "../../store/authStore";
+import { useUserStore } from "../../store/userStore";
+import { useTrendingStore } from "../../store/useMusicStore";
 
 export default function ProfileScreen() {
   const navigation = useNavigation<any>();
-  const {clearToken} = useAuthStore();
+  const { clearToken } = useAuthStore();
+  const { clearUser } = useUserStore();
+  const {clearTrending} = useTrendingStore();
   const handleMenuPress = (title: string) => {
     navigation.navigate(title);
   };
@@ -98,7 +102,7 @@ export default function ProfileScreen() {
       {/* Ads Banner */}
 
       {/* Services components */}
-      <View style={{  paddingHorizontal: 15, paddingTop: 20 }}>
+      <View style={{ paddingHorizontal: 15, paddingTop: 20 }}>
         {menuData.map((item, index) => (
           <MenuItem
             key={index}
@@ -113,7 +117,17 @@ export default function ProfileScreen() {
       </View>
 
       {/* Logout button */}
-      <Pressable style={styles.logoutBtn} onPress={()=> clearToken()}>
+      <Pressable
+        style={styles.logoutBtn}
+        onPress={() => {
+          console.log("log out clicked");
+
+          clearToken();
+          clearUser();
+          clearTrending();
+          // navigation.navigate('Welcome');
+        }}
+      >
         <Text style={styles.logoutText}>Logout</Text>
       </Pressable>
     </SafeAreaView>
@@ -173,19 +187,19 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Light,
     fontSize: wp(3.4),
   },
-  logoutBtn:{
-    borderWidth:1,
-    padding:10,
-    marginHorizontal:wp(28),
-    alignItems:'center',
-    borderRadius:10,
-    backgroundColor:theme.colors.green,
-    marginVertical:hp(2),
-    borderCurve:'continuous',
+  logoutBtn: {
+    borderWidth: 1,
+    padding: 10,
+    marginHorizontal: wp(28),
+    alignItems: "center",
+    borderRadius: 10,
+    backgroundColor: theme.colors.green,
+    marginVertical: hp(2),
+    borderCurve: "continuous",
   },
-  logoutText:{
-    color:theme.colors.white,
-    fontFamily:fonts.Regular,
-    fontSize:wp(5),
-  }
+  logoutText: {
+    color: theme.colors.white,
+    fontFamily: fonts.Regular,
+    fontSize: wp(5),
+  },
 });

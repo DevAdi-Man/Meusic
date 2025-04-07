@@ -5,21 +5,23 @@ import SearchAndBackHeader from "../../components/SearchAndBackHeader";
 import { FlatList, StyleSheet } from "react-native";
 import { data } from "../../utils/data";
 import MusicShowcase from "../../components/MusicShowcase";
+import { useTrendingStore } from "../../store/useMusicStore";
 
 export default function TrendingNow() {
+  const {trending} = useTrendingStore();
   return (
     <SafeAreaView style={styles.container}>
       <SearchAndBackHeader title="Trending Now" />
       <FlatList
-        data={data}
-        keyExtractor={(_, index) => index.toString()}
+        data={trending}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => {
           // console.log('item--> ',item.song)
           return (
             <MusicShowcase
-              imgUrl={item.image}
-              singerName={item.song}
-              songName={item.singer}
+              imgUrl={item.imgUrl}
+              singerName={item.singerName}
+              songName={item.songName}
             />
           );
         }}

@@ -1,28 +1,39 @@
 import { create } from "zustand";
-import { AuthState } from "../utils/Types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { persist, createJSONStorage } from "zustand/middleware";
+
+interface AuthState {
+  accessToken: string | null;
+  refreshToken: string | null;
+  setToken: (accessToken: string | null, refreshToken?: string | null) => Promise<void>;
+  clearToken: () => Promise<void>;
+}
 
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
-      token: null,
-      setToken: async (token: string | null) => {
-        if (token === null) {
-          await AsyncStorage.removeItem("auth-token"); 
+      accessToken: null,
+      refreshToken: null,
+
+      setToken: async (accessToken, refreshToken) => {
+        if (!accessToken) {
+          await AsyncStorage.multiRemove(["auth-token", "refresh-token"]);
         } else {
-          await AsyncStorage.setItem("auth-token", token);
+          await AsyncStorage.setItem("auth-token", accessToken);
+          if (refreshToken) {
+            await AsyncStorage.setItem("refresh-token", refreshToken);
+          }
         }
-        set({ token });
+        set({ accessToken, refreshToken: refreshToken || null });
       },
+
       clearToken: async () => {
-        await AsyncStorage.removeItem("auth-token");
-        await AsyncStorage.removeItem("user");
-        set({ token: null });
+        await AsyncStorage.multiRemove(["auth-token", "refresh-token"]);
+        set({ accessToken: null, refreshToken: null });
       },
     }),
     {
-      name: "auth-storage", // AsyncStorage key
+      name: "auth-storage",
       storage: createJSONStorage(() => AsyncStorage),
     }
   )

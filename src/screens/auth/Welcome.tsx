@@ -1,40 +1,79 @@
-import { View, Text, StyleSheet, Image, Pressable } from "react-native";
+import { View, Text, StyleSheet, Image, Pressable, Alert } from "react-native";
 import React, { useEffect } from "react";
-import { hp, wp } from "../../helper/common";
-import { theme } from "../../styles/theme";
-import { config } from "../../api/auth.api";
 import * as AuthSession from "expo-auth-session";
 import { useAuthStore } from "../../store/authStore";
+import { theme } from "../../styles/theme";
+import { wp, hp } from "../../helper/common";
+import Constants from "expo-constants";
 
-// Discovery document for Spotify OAuth
 const discovery = {
   authorizationEndpoint: "https://accounts.spotify.com/authorize",
   tokenEndpoint: "https://accounts.spotify.com/api/token",
 };
 
 export default function Welcome() {
-  const {setToken,token} = useAuthStore();
-  
-  // Create authentication request
+  const { setToken } = useAuthStore();
+  const clientId = Constants.expoConfig?.extra?.API_CLIENT_ID;
+
+  const redirectUri = "exp://192.168.31.130:8081/--/spotify-auth-callback";
+
   const [request, response, promptAsync] = AuthSession.useAuthRequest(
     {
-      clientId: config.clientId,
-      scopes: config.scopes,
-      redirectUri: config.redirectUrl,
-      responseType: "token",
+      clientId: clientId!,
+      scopes: [
+        "user-read-email",
+        "user-library-read",
+        "user-read-recently-played",
+        "user-top-read",
+        "playlist-read-private",
+        "playlist-read-collaborative",
+        "playlist-modify-public",
+      ],
+      redirectUri: "exp://192.168.31.130:8081/--/spotify-auth-callback",
+      usePKCE: true,
+      responseType: AuthSession.ResponseType.Code,
     },
     discovery
   );
-// Handle authentication response
-  useEffect(()=>{
-    if(response?.type === 'success' && response.params.access_token){
-        setToken(response.params.access_token)
-    }
-  },[response]);
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      if (response?.type === "success" && response.params.code) {
+        try {
+          const tokenResponse = await fetch(discovery.tokenEndpoint!, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams({
+              grant_type: "authorization_code",
+              code: response.params.code,
+              redirect_uri: redirectUri,
+              client_id: clientId!,
+              code_verifier: request?.codeVerifier!,
+            }).toString(),
+          });
+
+          const data = await tokenResponse.json();
+
+          if (data.access_token) {
+            await setToken(data.access_token, data.refresh_token);
+          } else {
+            console.log("Token exchange failed:", data);
+            Alert.alert("Error", "Token exchange failed");
+          }
+        } catch (e) {
+          console.error("OAuth error:", e);
+          Alert.alert("Error", "Something went wrong during login");
+        }
+      }
+    };
+
+    fetchToken();
+  }, [response]);
 
   return (
     <View style={styles.container}>
-      {/* logo  */}
       <View style={styles.ImageContainer}>
         <Image
           source={require("../../../assets/splash-icon.png")}
@@ -46,19 +85,23 @@ export default function Welcome() {
         We play the music.
       </Text>
       <Text style={styles.headingText}>You enjoy it. Deal?</Text>
-      <View>
-        <Pressable style={styles.signUpBtn} onPress={()=> promptAsync()} disabled={!request}>
-          <Text style={styles.signUpbuttonText}>SIGN UP</Text>
-        </Pressable>
-      </View>
-      <View>
-        <Pressable style={styles.logInBtn} onPress={()=> promptAsync()} disabled={!request}>
-          <Text style={styles.logInbuttonText}>LOG IN</Text>
-        </Pressable>
-      </View>
+      <Pressable
+        style={styles.signUpBtn}
+        onPress={() => promptAsync()}
+        disabled={!request}
+      >
+        <Text style={styles.signUpbuttonText}>SIGN UP</Text>
+      </Pressable>
+      <Pressable
+        style={styles.logInBtn}
+        onPress={() => promptAsync()}
+        disabled={!request}
+      >
+        <Text style={styles.logInbuttonText}>LOG IN</Text>
+      </Pressable>
       <View style={{ flex: 1 }} />
       <View style={styles.TextTAC}>
-        <Text style={styles.TAC}>By clicking on Sign up, you are agree to</Text>
+        <Text style={styles.TAC}>By clicking on Sign up, you agree to</Text>
         <Text style={styles.TAC}>Music's Terms and Conditions of Use.</Text>
       </View>
     </View>
@@ -68,14 +111,11 @@ export default function Welcome() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent:'center',
     alignItems: "center",
     backgroundColor: theme.colors.white,
   },
   ImageContainer: {
-    borderRadius: 20,
     marginTop: 170,
-    marginLeft: 40,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -84,20 +124,17 @@ const styles = StyleSheet.create({
   img: {
     width: wp(25),
     height: hp(10),
-    borderCurve: "circular",
     borderRadius: theme.radius.xl,
   },
   ImageText: {
     color: theme.colors.black,
     fontSize: 30,
     fontWeight: theme.fontWeight.bold,
-    fontFamily: "san-sarif",
+    fontFamily: "sans-serif",
   },
   headingText: {
-    // marginTop:15,
-    // marginLeft:20,
     fontSize: 45,
-    fontWeight: 800,
+    fontWeight: "800",
     color: theme.colors.black,
   },
   commonText: {
@@ -109,7 +146,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 100,
     paddingVertical: 15,
     borderRadius: theme.radius.xxl,
-    borderCurve: "continuous",
   },
   signUpbuttonText: {
     color: theme.colors.white,
@@ -122,7 +158,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 100,
     paddingVertical: 15,
     borderRadius: theme.radius.xxl,
-    borderCurve: "continuous",
     borderWidth: 1,
     borderColor: theme.colors.neutral(0.5),
   },
@@ -133,7 +168,6 @@ const styles = StyleSheet.create({
   },
   TextTAC: {
     flex: 1,
-    // borderWidth:2,
     marginBottom: 40,
     alignItems: "center",
     justifyContent: "flex-end",

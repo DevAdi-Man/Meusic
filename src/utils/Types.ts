@@ -29,4 +29,5 @@ export type UserProp = {
 export interface UserState {
   user: UserProp | null;
   getUser: () => Promise<void>;
+  clearUser: ()=> Promise<void>;
 }

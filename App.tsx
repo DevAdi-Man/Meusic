@@ -5,21 +5,12 @@ import { StatusBar } from "react-native";
 import { AppProviders } from "./src/components/Provider";
 import { useCustomFonts } from "./src/components/FontLoader";
 import MainStack from "./src/navigation/MainStack";
-import { useUserStore } from "./src/store/userStore";
-import { useEffect } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const AppNavigation: React.FC = () => {
-  const { token } = useAuthStore();
-  const { getUser } = useUserStore();
-  useEffect(() => {
-    // console.log("Token from Zustand:", token);
-    if (token) {
-      getUser();
-    }
-  }, [token]);
-
-  return token ? <MainStack /> : <AuthStack />;
+const AppNavigation = () => {
+  const { accessToken, refreshToken } = useAuthStore();
+  console.log("access_token", accessToken);
+  console.log("refresh_token", refreshToken);
+  return accessToken ? <MainStack /> : <AuthStack />;
 };
 
 export default function App() {
