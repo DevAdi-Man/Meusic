@@ -31,3 +31,13 @@ export interface UserState {
   getUser: () => Promise<void>;
   clearUser: ()=> Promise<void>;
 }
+
+//Artist 
+export interface Artist {
+  id:string;
+  name:string;
+  imageUrl:string;
+  followers:number;
+  genra:string[];
+  spotifyUrl:string;
+}

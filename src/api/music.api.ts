@@ -26,7 +26,7 @@ export const fetchTrendingTracks = async () => {
       },
     });
     const items = response.data.albums.items;
-    console.log("items musics --> ",items);
+    // console.log("items musics --> ",items);
     const formattedSongs = formatTrendingData(items);
     setTrendingTracks(formattedSongs);
   } catch (err) {

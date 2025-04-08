@@ -7,6 +7,7 @@ const API_URL = "https://api.spotify.com/v1/me";
 
 const BASE_URL = "https://api.spotify.com/v1";
 const TOKEN_URL = "https://accounts.spotify.com/api/token";
+
 export const axiosInstance = axios.create({
   baseURL: BASE_URL,
   headers: {

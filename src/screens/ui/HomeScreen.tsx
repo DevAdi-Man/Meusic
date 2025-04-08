@@ -21,6 +21,8 @@ import { useUserStore } from "../../store/userStore";
 import useAlbumStore from "../../store/useAlbum";
 import { useTrendingStore } from "../../store/useMusicStore";
 import { fetchTrendingTracks } from "../../api/music.api";
+import { usePopularArtist } from "../../store/artistStore";
+import { fetchingPopularArtist } from "../../api/artist.api";
 
 // Imports End here ---------------------->
 export default function HomeScreen() {
@@ -32,7 +34,7 @@ export default function HomeScreen() {
   //fetching all album data
   const { albums, setAlbums } = useAlbumStore();
   const trending = useTrendingStore((state) => state.trending);
-
+  const { setArtist,artists } = usePopularArtist();
 
   console.log("user is ---> ", user);
   useEffect(() => {
@@ -40,7 +42,19 @@ export default function HomeScreen() {
     setAlbums();
     fetchTrendingTracks();
   }, []);
-
+  // fetching  Popular artist
+  useEffect(() => {
+    // also can send parameter query and limit
+    const loadPopularArtist = async () => {
+      try {
+        const PopularArtist = await fetchingPopularArtist();
+        setArtist(PopularArtist);
+      } catch (error) {
+        console.error("Error While fetching Popular artist : ",error);
+      }
+    };
+    loadPopularArtist();
+  }, []);
   return (
     <View style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
@@ -106,60 +120,15 @@ export default function HomeScreen() {
               showsHorizontalScrollIndicator={false}
               style={styles.TreandingScroll}
             >
-              <MusicShowcase
-                singerName="Amrinder Gill"
+              {artists.map((artist)=>(
+                <MusicShowcase 
+                key={artist.id}
+                singerName={artist.name}
+                imgUrl={artist.imageUrl}
                 borderRadius={100}
-                size={54}
                 alignItems="center"
-              />
-              <MusicShowcase
-                alignItems="center"
-                songName="3:59 AM"
-                borderRadius={100}
-                size={54}
-              />
-              <MusicShowcase
-                alignItems="center"
-                singerName="Diljit Dosanjh"
-                borderRadius={100}
-                size={54}
-              />
-              <MusicShowcase
-                alignItems="center"
-                singerName="Diljit Dosanjh"
-                borderRadius={100}
-                size={54}
-              />
-              <MusicShowcase
-                alignItems="center"
-                singerName="Diljit Dosanjh"
-                borderRadius={100}
-                size={54}
-              />
-              <MusicShowcase
-                alignItems="center"
-                singerName="Diljit Dosanjh"
-                borderRadius={100}
-                size={54}
-              />
-              <MusicShowcase
-                alignItems="center"
-                singerName="Diljit Dosanjh"
-                borderRadius={100}
-                size={54}
-              />
-              <MusicShowcase
-                singerName="Diljit Dosanjh"
-                borderRadius={100}
-                size={54}
-                alignItems="center"
-              />
-              <MusicShowcase
-                singerName="Diljit Dosanjh"
-                borderRadius={100}
-                size={54}
-                alignItems="center"
-              />
+                 />
+              ))}
             </ScrollView>
           </View>
 
