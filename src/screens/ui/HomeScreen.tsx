@@ -18,11 +18,12 @@ import Feather from "@expo/vector-icons/Feather";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import { useUserStore } from "../../store/userStore";
-import useAlbumStore from "../../store/useAlbum";
+// import useAlbumStore from "../../store/useAlbum";
 import { useTrendingStore } from "../../store/useMusicStore";
 import { fetchTrendingTracks } from "../../api/music.api";
 import { usePopularArtist } from "../../store/artistStore";
 import { fetchingPopularArtist } from "../../api/artist.api";
+import { useAlbumStore } from "../../store/useAlbum";
 
 // Imports End here ---------------------->
 export default function HomeScreen() {
@@ -36,7 +37,7 @@ export default function HomeScreen() {
   const trending = useTrendingStore((state) => state.trending);
   const { setArtist,artists } = usePopularArtist();
 
-  console.log("user is ---> ", user);
+  // console.log("user is ---> ",albums);
   useEffect(() => {
     setGreeting(getTime());
     setAlbums();
@@ -135,7 +136,7 @@ export default function HomeScreen() {
           {/* Top Charts */}
           <View style={[styles.TrendingContainer]}>
             <View style={styles.TrendingItem}>
-              <Text style={styles.TrendingTextTitle}>Top Charts</Text>
+              <Text style={styles.TrendingTextTitle}>Top Albums</Text>
               <Pressable onPress={() => navigation.navigate("TopCharts")}>
                 <Text style={styles.TextSeeAll}>See All</Text>
               </Pressable>
@@ -145,60 +146,13 @@ export default function HomeScreen() {
               showsHorizontalScrollIndicator={false}
               style={styles.TreandingScroll}
             >
-              <MusicShowcase
-                // singerName="Amrinder Gill"
-                borderRadius={45}
-                size={50}
-                alignItems="center"
-              />
-              <MusicShowcase
-                alignItems="center"
-                // songName="3:59 AM"
-                borderRadius={45}
-                size={50}
-              />
-              <MusicShowcase
-                alignItems="center"
-                // singerName="Diljit Dosanjh"
-                borderRadius={45}
-                size={50}
-              />
-              <MusicShowcase
-                alignItems="center"
-                // singerName="Diljit Dosanjh"
-                borderRadius={45}
-                size={50}
-              />
-              <MusicShowcase
-                alignItems="center"
-                // singerName="Diljit Dosanjh"
-                borderRadius={45}
-                size={50}
-              />
-              <MusicShowcase
-                alignItems="center"
-                // singerName="Diljit Dosanjh"
-                borderRadius={45}
-                size={50}
-              />
-              <MusicShowcase
-                alignItems="center"
-                // singerName="Diljit Dosanjh"
-                borderRadius={45}
-                size={50}
-              />
-              <MusicShowcase
-                // singerName="Diljit Dosanjh"
-                borderRadius={45}
-                size={50}
-                alignItems="center"
-              />
-              <MusicShowcase
-                // singerName="Diljit Dosanjh"
-                borderRadius={45}
-                size={50}
-                alignItems="center"
-              />
+              {albums.map((album)=>(
+                <MusicShowcase
+                  key={album.id}
+                  songName={album.name}
+                  imgUrl={album.images?.[0]?.url } 
+                />
+              ))}
             </ScrollView>
           </View>
 

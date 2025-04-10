@@ -3,7 +3,7 @@ import { useTrendingStore } from '../store/useMusicStore';
 import { axiosInstance } from './user.api'; // your axios config
 // import { useMusicStore } from './useMusicStore';
 const countryCode = 'IN' 
-const formatTrendingData = (albums: any[]) => {
+export const formatTrendingData = (albums: any[]) => {
   return albums
     .filter((album) => album.available_markets?.includes(countryCode)) // ✅ filter here
     .map((album) => ({

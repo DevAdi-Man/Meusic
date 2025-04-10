@@ -27,7 +27,7 @@ export const fetchingPopularArtist = async (
       spotifyUrl: artist.external_urls.spotify,
     }));
   } catch (error) {
-    console.error("Error while fetching Popular Artist : ", error);
+    // console.error("Error while fetching Popular Artist : ", error);
     return [];
   }
 };

@@ -73,7 +73,7 @@ axiosInstance.interceptors.response.use(
         originRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return axiosInstance(originRequest);
       } catch (refreshError) {
-        console.error("Refersh token failed: ", refreshError);
+        // console.error("Refersh token failed: ", refreshError);
         await AsyncStorage.multiRemove(["auth-token", "refresh-token"]);
         useAuthStore.getState().clearToken?.(); // optional logout/reset
         return Promise.reject(refreshError);

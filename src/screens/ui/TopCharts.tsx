@@ -4,20 +4,23 @@ import SearchAndBackHeader from "../../components/SearchAndBackHeader";
 import { FlatList, StyleSheet } from "react-native";
 import { data } from "../../utils/data";
 import MusicShowcase from "../../components/MusicShowcase";
+import { useAlbumStore } from "../../store/useAlbum";
 
 export default function TopCharts() {
+  const {albums}= useAlbumStore();
   return (
     <SafeAreaView style={styles.container}>
       <SearchAndBackHeader title="Top Charts" />
       <FlatList
-        data={data}
-        keyExtractor={(_, index) => index.toString()}
+        data={albums}
+        keyExtractor={(index) => index.id}
         renderItem={({ item }) => {
           return (
             <MusicShowcase
-              imgUrl={item.image}
-              singerName={item.song}
-              songName={item.singer}
+              imgUrl={item.images?.[0]?.url }
+              singerName={item.name}
+              // songName={item.singer}
+              alignItems="center"
             />
           );
         }}
