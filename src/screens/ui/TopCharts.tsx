@@ -2,7 +2,6 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SearchAndBackHeader from "../../components/SearchAndBackHeader";
 import { FlatList, StyleSheet } from "react-native";
-import { data } from "../../utils/data";
 import MusicShowcase from "../../components/MusicShowcase";
 import { useAlbumStore } from "../../store/useAlbum";
 
@@ -19,7 +18,6 @@ export default function TopCharts() {
             <MusicShowcase
               imgUrl={item.images?.[0]?.url }
               singerName={item.name}
-              // songName={item.singer}
               alignItems="center"
             />
           );

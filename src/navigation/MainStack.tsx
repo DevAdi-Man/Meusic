@@ -19,6 +19,7 @@ import Playback from "../screens/ui/Playback";
 import DataSaverStorage from "../screens/ui/DataSaverStorage";
 import Security from "../screens/ui/Security";
 import EditProfile from "../screens/ui/EditProfile";
+import TopTrack from "../screens/ui/TopTrack";
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,7 @@ export default function MainStack() {
       <Stack.Screen name="TrendingNow" component={TrendingNow} />
       <Stack.Screen name="PopularArtists" component={PopularArtists} />
       <Stack.Screen name="TopCharts" component={TopCharts} />
+      <Stack.Screen name='TopTrack' component={TopTrack} />
       <Stack.Screen name="Search" component={SearchScreen} />
       <Stack.Screen name='Playlists' component={PlaylistScreen} />
       <Stack.Screen name='Downloads' component={DownloadsScreen} />

@@ -3,7 +3,7 @@ import axios from "axios";
 import { config } from "./auth.api";
 import { useAuthStore } from "../store/authStore";
 
-const API_URL = "https://api.spotify.com/v1/me";
+export const API_URL = "https://api.spotify.com/v1/me";
 
 const BASE_URL = "https://api.spotify.com/v1";
 const TOKEN_URL = "https://accounts.spotify.com/api/token";

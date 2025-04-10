@@ -29,7 +29,8 @@ export const useUserStore = create<UserState>()(
             },
           });
         } catch (error) {
-          console.error("Error fetching user data:", error);
+          // console.error("Error fetching user data:", error);
+          throw error;
         }
       },
       clearUser: async () => {

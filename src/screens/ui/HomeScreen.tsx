@@ -24,6 +24,10 @@ import { fetchTrendingTracks } from "../../api/music.api";
 import { usePopularArtist } from "../../store/artistStore";
 import { fetchingPopularArtist } from "../../api/artist.api";
 import { useAlbumStore } from "../../store/useAlbum";
+import axios from "axios";
+import { useAuthStore } from "../../store/authStore";
+import { useTrack } from "../../store/useTrackStore";
+import { fetchTopTrack } from "../../api/topTracks.api";
 
 // Imports End here ---------------------->
 export default function HomeScreen() {
@@ -36,7 +40,7 @@ export default function HomeScreen() {
   const { albums, setAlbums } = useAlbumStore();
   const trending = useTrendingStore((state) => state.trending);
   const { setArtist,artists } = usePopularArtist();
-
+  const {tracks,setTracks} = useTrack();
   // console.log("user is ---> ",albums);
   useEffect(() => {
     setGreeting(getTime());
@@ -56,6 +60,19 @@ export default function HomeScreen() {
     };
     loadPopularArtist();
   }, []);
+useEffect(() => {
+  const loadHomeTopTracks = async () => {
+    try {
+      const top10 = await fetchTopTrack(10); // Only 10 for HomeScreen
+      setTracks(top10);
+    } catch (error) {
+      console.error("Error fetching top tracks for HomeScreen", error);
+    }
+  };
+
+  loadHomeTopTracks();
+}, []);
+  // console.log('tracks--> ',tracks)
   return (
     <View style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
@@ -158,8 +175,8 @@ export default function HomeScreen() {
 
           <View style={[styles.TrendingContainer]}>
             <View style={styles.TrendingItem}>
-              <Text style={styles.TrendingTextTitle}>Top Charts</Text>
-              <Pressable>
+              <Text style={styles.TrendingTextTitle}>Top Tracks</Text>
+              <Pressable onPress={() => navigation.navigate("TopTrack")}>
                 <Text style={styles.TextSeeAll}>See All</Text>
               </Pressable>
             </View>
@@ -168,60 +185,13 @@ export default function HomeScreen() {
               showsHorizontalScrollIndicator={false}
               style={styles.TreandingScroll}
             >
-              <MusicShowcase
-                // singerName="Amrinder Gill"
-                borderRadius={45}
-                size={50}
-                alignItems="center"
+             {tracks.map((track)=>(
+              <MusicShowcase 
+                key={track.id}
+                imgUrl={track.imgUrl}
+                singerName={track.singerName}
               />
-              <MusicShowcase
-                alignItems="center"
-                // songName="3:59 AM"
-                borderRadius={45}
-                size={50}
-              />
-              <MusicShowcase
-                alignItems="center"
-                // singerName="Diljit Dosanjh"
-                borderRadius={45}
-                size={50}
-              />
-              <MusicShowcase
-                alignItems="center"
-                // singerName="Diljit Dosanjh"
-                borderRadius={45}
-                size={50}
-              />
-              <MusicShowcase
-                alignItems="center"
-                // singerName="Diljit Dosanjh"
-                borderRadius={45}
-                size={50}
-              />
-              <MusicShowcase
-                alignItems="center"
-                // singerName="Diljit Dosanjh"
-                borderRadius={45}
-                size={50}
-              />
-              <MusicShowcase
-                alignItems="center"
-                // singerName="Diljit Dosanjh"
-                borderRadius={45}
-                size={50}
-              />
-              <MusicShowcase
-                // singerName="Diljit Dosanjh"
-                borderRadius={45}
-                size={50}
-                alignItems="center"
-              />
-              <MusicShowcase
-                // singerName="Diljit Dosanjh"
-                borderRadius={45}
-                size={50}
-                alignItems="center"
-              />
+             ))}
             </ScrollView>
           </View>
         </ScrollView>

@@ -30,6 +30,7 @@ export const fetchTrendingTracks = async () => {
     const formattedSongs = formatTrendingData(items);
     setTrendingTracks(formattedSongs);
   } catch (err) {
-    console.error("Failed to fetch trending tracks:", err);
+    console.log("Failed to fetch trending tracks:", err);
+    throw err;
   }
 };
