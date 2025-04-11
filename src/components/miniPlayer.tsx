@@ -3,19 +3,65 @@ import React, { useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../styles/theme";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, NavigationProp, ParamListBase } from "@react-navigation/native";
 import useAudioStore from "../store/usePlayerStore";
-// import { usePlayer } from "../store/usePlayerStore";
 
-export default function MiniPlayer({ audioUri }: { audioUri: string }) {
-  const { sound, isPlaying, loadAudio, playSound, pauseSound, playbackStatus, unloadSound } = useAudioStore();
-  const navigation = useNavigation();
+
+const SAMPLE_TRACK = {
+  songName: "Sample Track",
+  singerName: "Sample Artist",
+  imgUrl: "https://via.placeholder.com/400",
+  audioUrl: "https://p.scdn.co/mp3-preview/4639dc9b1fc15e9f9dacbf65724b0eb9d30675b3" 
+};
+
+export default function MiniPlayer() {
+  const { 
+    sound, 
+    isPlaying, 
+    loadAudio, 
+    playSound, 
+    pauseSound, 
+    unloadSound,
+    initializeAudio,
+    setCurrentTrack,
+    currentTrack
+  } = useAudioStore();
+  const navigation = useNavigation<NavigationProp<ParamListBase>>();
+
+  
   useEffect(() => {
-    loadAudio(audioUri);
+    const setupAudio = async () => {
+      try {
+        await initializeAudio();
+        setCurrentTrack(SAMPLE_TRACK);
+        await loadAudio(SAMPLE_TRACK.audioUrl);
+        
+        await playSound();
+        
+        console.log("Audio initialized and sample track loaded");
+      } catch (error) {
+        console.error("Failed to initialize audio:", error);
+      }
+    };
+    
+    setupAudio();
+    
     return () => {
-      unloadSound()
+      unloadSound();
+    };
+  }, []);
+
+  const togglePlayPause = async () => {
+    if (isPlaying) {
+      await pauseSound();
+    } else {
+      await playSound();
     }
-  }, [audioUri]);
+  };
+
+  if (!currentTrack) {
+    return null;
+  }
 
   return (
     <TouchableOpacity
