@@ -5,6 +5,7 @@ import { StatusBar } from "react-native";
 import { AppProviders } from "./src/components/Provider";
 import { useCustomFonts } from "./src/components/FontLoader";
 import MainStack from "./src/navigation/MainStack";
+import MiniPlayer from "./src/components/miniPlayer";
 
 const AppNavigation = () => {
   const { accessToken, refreshToken } = useAuthStore();
@@ -27,6 +28,7 @@ export default function App() {
           barStyle="dark-content"
         />
         <AppNavigation />
+        <MiniPlayer />
       </NavigationContainer>
     </AppProviders>
   );

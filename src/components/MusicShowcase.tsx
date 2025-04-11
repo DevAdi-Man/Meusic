@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Pressable, Touchable, TouchableOpacity } from "react-native";
 import React from "react";
 import { hp, wp } from "../helper/common";
 import { fonts } from "../styles/font";
@@ -20,19 +20,21 @@ interface SHowCaseProps {
   borderRadius?: number;
   alignItems?: FlexAlignType;
   height?: number;
+  onPress?: ()=> void;
 }
 
 const MusicShowcase: React.FC<SHowCaseProps> = ({
   imgUrl,
   singerName,
   songName,
-  Top,
+  onPress,
   size = 50,
   borderRadius = 13,
   alignItems = "flex-start",
 }) => {
   return (
-    <View
+    <TouchableOpacity
+      onPress={()=> onPress}
       style={[
         styles.container,
         {
@@ -69,7 +71,7 @@ const MusicShowcase: React.FC<SHowCaseProps> = ({
           </Text>
         ) : null}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
