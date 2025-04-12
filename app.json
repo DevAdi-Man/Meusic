@@ -31,8 +31,8 @@
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "API_CLIENT_ID": "666f623e66234b5fb146fcde2fb9d082",
-      "API_Client_Secret": "6cc41887fd66435aa33bfea502f20c7d",
+      "API_CLIENT_ID": "your client id",
+      "API_Client_Secret": "your client secret",
       "eas": {
         "projectId": "cfa8df44-f330-483d-9594-90865dc70462"
       }
