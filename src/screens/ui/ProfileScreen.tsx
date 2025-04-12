@@ -15,7 +15,7 @@ import { useTrendingStore } from "../../store/useMusicStore";
 export default function ProfileScreen() {
   const navigation = useNavigation<any>();
   const { clearToken } = useAuthStore();
-  const { clearUser } = useUserStore();
+  const { clearUser,user } = useUserStore();
   const {clearTrending} = useTrendingStore();
   const handleMenuPress = (title: string) => {
     navigation.navigate(title);
@@ -58,6 +58,8 @@ export default function ProfileScreen() {
       onPress: () => handleMenuPress("Security"),
     },
   ];
+  // console.log("user-->",user);
+  
   return (
     <SafeAreaView style={styles.container}>
       {/* Library Header Seaction  */}
@@ -85,16 +87,16 @@ export default function ProfileScreen() {
       {/* User Profile Section  */}
       <View style={styles.userProfileContainer}>
         <Avatar
-          name=""
-          imageUrl={require("../../../assets/boy.jpg")}
+           name={user?.display_name ?? ""}
+          imageUrl={user?.images[0]?.url}
           size={80}
         />
         <View style={styles.userProfileInfo}>
           {/* user name */}
-          <Text style={styles.userProfileTextName}>Aditya Raj</Text>
+          <Text style={styles.userProfileTextName}>{user?.display_name}</Text>
           {/* user email */}
           <Text style={styles.userProfileTextEmail}>
-            adityaraj99106@gmail.com
+            {user?.email}
           </Text>
         </View>
       </View>
