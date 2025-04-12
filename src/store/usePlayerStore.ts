@@ -1,8 +1,9 @@
-// store/useAudioStore.ts
-import { create } from 'zustand';
-import { Audio, AVPlaybackStatus } from 'expo-av';
+// store/usePlayerStore.ts
+import { create } from "zustand";
+import { Audio, AVPlaybackStatus } from "expo-av";
 
 interface Track {
+  id: string;
   songName: string;
   singerName: string;
   imgUrl: string;
@@ -27,15 +28,14 @@ const initializeAudioMode = async () => {
     await Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
       staysActiveInBackground: true,
-      interruptionModeIOS: 1, 
+      interruptionModeIOS: 1,
       playsInSilentModeIOS: true,
       shouldDuckAndroid: true,
-      interruptionModeAndroid: 1, 
-      playThroughEarpieceAndroid: false
+      interruptionModeAndroid: 1,
+      playThroughEarpieceAndroid: false,
     });
-    console.log('Audio mode initialized');
   } catch (error) {
-    console.error('Failed to set audio mode:', error);
+    console.error("Failed to set audio mode:", error);
   }
 };
 
@@ -44,26 +44,31 @@ const useAudioStore = create<AudioState>((set, get) => ({
   isPlaying: false,
   playbackStatus: null,
   currentTrack: null,
-  
+
   initializeAudio: async () => {
     await initializeAudioMode();
   },
-  
-  setCurrentTrack: (track: Track) => {
-    set({ currentTrack: track });
-  },
-  
+
+  setCurrentTrack: (track) => set({ currentTrack: track }),
+
   loadAudio: async (uri: string) => {
+    const currentSound = get().sound;
+    if (currentSound) await currentSound.unloadAsync();
+
     try {
-      // Unload any existing sound
-      const currentSound = get().sound;
-      if (currentSound) {
-        await currentSound.unloadAsync();
+      // const isRemote = uri.startsWith("http");
+      let source;
+
+      if (uri === "fallback") {
+        source = require("../../assets/RehleMereKolSimranChoudhary.mp3");
+      } else if (uri.startsWith("http")) {
+        source = { uri };
+      } else {
+        throw new Error("Invalid audio URI");
       }
-      
-      console.log('Loading audio from:', uri);
+
       const { sound } = await Audio.Sound.createAsync(
-        { uri },
+        source,
         { shouldPlay: false },
         (status) => {
           if (status.isLoaded) {
@@ -71,59 +76,35 @@ const useAudioStore = create<AudioState>((set, get) => ({
           }
         }
       );
-      
       set({ sound });
-      const playbackStatus = await sound.getStatusAsync();
-      set({ playbackStatus });
-      console.log('Audio loaded successfully');
     } catch (error) {
-      console.error("Failed to load sound", error);
+      console.error("Failed to load audio", error);
     }
   },
-  
+
   playSound: async () => {
-    try {
-      const currentSound = get().sound;
-      if (currentSound) {
-        console.log('Playing sound');
-        await currentSound.playAsync();
-        set({ isPlaying: true });
-      } else {
-        console.warn('No sound loaded to play');
-      }
-    } catch (error) {
-      console.error("Failed to play sound", error);
+    const currentSound = get().sound;
+    if (currentSound) {
+      await currentSound.playAsync();
+      set({ isPlaying: true });
     }
   },
-  
+
   pauseSound: async () => {
-    try {
-      const currentSound = get().sound;
-      if (currentSound) {
-        console.log('Pausing sound');
-        await currentSound.pauseAsync();
-        set({ isPlaying: false });
-      }
-    } catch (error) {
-      console.error("Failed to pause sound", error);
+    const currentSound = get().sound;
+    if (currentSound) {
+      await currentSound.pauseAsync();
+      set({ isPlaying: false });
     }
   },
-  
+
   unloadSound: async () => {
-    try {
-      const currentSound = get().sound;
-      if (currentSound) {
-        console.log('Unloading sound');
-        await currentSound.unloadAsync();
-        set({ sound: null, isPlaying: false, playbackStatus: null });
-      }
-    } catch (error) {
-      console.error("Failed to unload sound", error);
+    const currentSound = get().sound;
+    if (currentSound) {
+      await currentSound.unloadAsync();
+      set({ sound: null, isPlaying: false, playbackStatus: null });
     }
   },
 }));
-
-// Initialize audio mode when store is first created
-initializeAudioMode();
 
 export default useAudioStore;

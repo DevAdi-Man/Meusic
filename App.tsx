@@ -28,7 +28,7 @@ export default function App() {
           barStyle="dark-content"
         />
         <AppNavigation />
-        <MiniPlayer />
+ 
       </NavigationContainer>
     </AppProviders>
   );

@@ -1,58 +1,45 @@
-// TopTrack.tsx
-import React, { useEffect, useRef } from "react";
+// screens/TopTrack.tsx
+import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FlatList, StyleSheet } from "react-native";
 import SearchAndBackHeader from "../../components/SearchAndBackHeader";
 import MusicShowcase from "../../components/MusicShowcase";
 import { useTrack } from "../../store/useTrackStore";
 import { fetchTopTrack } from "../../api/topTracks.api";
-import { Audio } from "expo-av";
-import { usePlayer } from "../../store/usePlayerStore";
-
-// Define expected structure
-interface TrackType {
-  id: string;
-  songName: string;
-  singerName: string;
-  imgUrl: string;
-  spotifyUrl: string;
-  preview_url?: string;
-  name?: string;
-  artists?: { name: string }[];
-  images?: { url: string }[];
-}
+import useAudioStore from "../../store/usePlayerStore";
 
 export default function TopTrack() {
   const { tracks, setTracks } = useTrack();
-  // const { setCurrentTrack, setIsPlaying } = usePlayer();
-  const soundRef = useRef<Audio.Sound | null>(null);
+  const { setCurrentTrack, loadAudio, playSound } = useAudioStore();
 
-
-
-  // Fetch top tracks
   useEffect(() => {
     const loadTopTracks = async () => {
       try {
-        const data = await fetchTopTrack(30);
+        const data = await fetchTopTrack(4);
         setTracks(data);
       } catch (error) {
         console.error("Failed to load top tracks", error);
       }
     };
-
     loadTopTracks();
   }, []);
 
-  // Cleanup audio on unmount
-  useEffect(() => {
-    return () => {
-      if (soundRef.current) {
-        soundRef.current.unloadAsync();
-      }
-    };
-  }, []);
+  const handlePlayTrack = async (track: any) => {
+    try {
+      console.log("Pressed track:", track.songName, track.audioUrl);
 
+      const isValidRemoteUrl =
+        typeof track.audioUrl === "string" && track.audioUrl.startsWith("http");
 
+      const audioUri = isValidRemoteUrl ? track.audioUrl : "fallback"; // just a flag, actual fallback is handled in store
+
+      setCurrentTrack(track);
+      await loadAudio(audioUri);
+      await playSound();
+    } catch (error) {
+      console.error("Error playing track:", error);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -65,7 +52,10 @@ export default function TopTrack() {
             imgUrl={item.imgUrl}
             singerName={item.singerName}
             alignItems="center"
-            // onPress={() => handlePlayAlbum(item)}
+            onPress={() => {
+              console.log("Pressed track:", item.songName);
+              handlePlayTrack(item);
+            }}
           />
         )}
         showsVerticalScrollIndicator={false}

@@ -1,19 +1,22 @@
 import axios from "axios";
 import { useAuthStore } from "../store/authStore";
-
+import localMp3 from "../../assets/RehleMereKolSimranChoudhary.mp3"; // ✅ safe import
 export const fetchTopTrack = async (limit = 10) => {
   try {
     const { accessToken } = useAuthStore.getState();
 
-    const response = await axios.get("https://api.spotify.com/v1/me/top/tracks", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-      params: {
-        limit,
-        time_range: "medium_term",
-      },
-    });
+    const response = await axios.get(
+      "https://api.spotify.com/v1/me/top/tracks",
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        params: {
+          limit,
+          time_range: "medium_term",
+        },
+      }
+    );
 
     const trackData = response.data.items.map((track: any) => ({
       id: track.id,
@@ -21,6 +24,7 @@ export const fetchTopTrack = async (limit = 10) => {
       singerName: track.artists.map((a: any) => a.name).join(", "),
       imgUrl: track.album.images?.[0]?.url ?? "",
       spotifyUrl: track.external_urls.spotify,
+      audioUrl: track.preview_url || localMp3,
     }));
 
     return trackData;

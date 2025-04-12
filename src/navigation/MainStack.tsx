@@ -20,32 +20,40 @@ import DataSaverStorage from "../screens/ui/DataSaverStorage";
 import Security from "../screens/ui/Security";
 import EditProfile from "../screens/ui/EditProfile";
 import TopTrack from "../screens/ui/TopTrack";
+import MiniPlayer from "../components/miniPlayer";
+import NowPlaying from "../screens/ui/NowPlaying";
 
 const Stack = createNativeStackNavigator();
 
 export default function MainStack() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false, animation: "fade" }}>
-      <Stack.Screen name="bottom" component={AppStack} />
-      <Stack.Screen name="TrendingNow" component={TrendingNow} />
-      <Stack.Screen name="PopularArtists" component={PopularArtists} />
-      <Stack.Screen name="TopCharts" component={TopCharts} />
-      <Stack.Screen name='TopTrack' component={TopTrack} />
-      <Stack.Screen name="Search" component={SearchScreen} />
-      <Stack.Screen name='Playlists' component={PlaylistScreen} />
-      <Stack.Screen name='Downloads' component={DownloadsScreen} />
-      <Stack.Screen name='Podcasts' component={PodcastsScreen} />
-      <Stack.Screen name='Albums' component={AlbumsScreen} />
-      <Stack.Screen name='Songs' component={SongsScreen} />
-      <Stack.Screen name='Artists' component={ArtistsScreen} />
-      <Stack.Screen name='Historys' component={HistorysScreen}/>
-      <Stack.Screen name='UserInfo' component={UserInfo} />
-      <Stack.Screen name='Notification' component={Notification} />
-      <Stack.Screen name='AudioVideo' component={AudioVideo} />
-      <Stack.Screen name="Playback" component={Playback} />
-      <Stack.Screen name="DataSaverStorage" component={DataSaverStorage} />
-      <Stack.Screen name="Security"  component={Security}/>
-      <Stack.Screen name="EditProfile" component={EditProfile} />
-    </Stack.Navigator>
+    <>
+      <Stack.Navigator
+        screenOptions={{ headerShown: false, animation: "fade" }}
+      >
+        <Stack.Screen name="bottom" component={AppStack} />
+        <Stack.Screen name="TrendingNow" component={TrendingNow} />
+        <Stack.Screen name="PopularArtists" component={PopularArtists} />
+        <Stack.Screen name="TopCharts" component={TopCharts} />
+        <Stack.Screen name="TopTrack" component={TopTrack} />
+        <Stack.Screen name="Search" component={SearchScreen} />
+        <Stack.Screen name="Playlists" component={PlaylistScreen} />
+        <Stack.Screen name="Downloads" component={DownloadsScreen} />
+        <Stack.Screen name="Podcasts" component={PodcastsScreen} />
+        <Stack.Screen name="Albums" component={AlbumsScreen} />
+        <Stack.Screen name="Songs" component={SongsScreen} />
+        <Stack.Screen name="Artists" component={ArtistsScreen} />
+        <Stack.Screen name="Historys" component={HistorysScreen} />
+        <Stack.Screen name="UserInfo" component={UserInfo} />
+        <Stack.Screen name="Notification" component={Notification} />
+        <Stack.Screen name="AudioVideo" component={AudioVideo} />
+        <Stack.Screen name="Playback" component={Playback} />
+        <Stack.Screen name="DataSaverStorage" component={DataSaverStorage} />
+        <Stack.Screen name="Security" component={Security} />
+        <Stack.Screen name="EditProfile" component={EditProfile} />
+        <Stack.Screen name='NowPlaying' component={NowPlaying} />
+      </Stack.Navigator>
+      <MiniPlayer />
+    </>
   );
 }

@@ -6,46 +6,21 @@ import { theme } from "../styles/theme";
 import { useNavigation, NavigationProp, ParamListBase } from "@react-navigation/native";
 import useAudioStore from "../store/usePlayerStore";
 
-
-const SAMPLE_TRACK = {
-  songName: "Sample Track",
-  singerName: "Sample Artist",
-  imgUrl: "https://via.placeholder.com/400",
-  audioUrl: "https://p.scdn.co/mp3-preview/4639dc9b1fc15e9f9dacbf65724b0eb9d30675b3" 
-};
-
 export default function MiniPlayer() {
-  const { 
-    sound, 
-    isPlaying, 
-    loadAudio, 
-    playSound, 
-    pauseSound, 
+  const {
+    sound,
+    isPlaying,
+    playSound,
+    pauseSound,
     unloadSound,
     initializeAudio,
-    setCurrentTrack,
-    currentTrack
+    currentTrack,
   } = useAudioStore();
+
   const navigation = useNavigation<NavigationProp<ParamListBase>>();
 
-  
   useEffect(() => {
-    const setupAudio = async () => {
-      try {
-        await initializeAudio();
-        setCurrentTrack(SAMPLE_TRACK);
-        await loadAudio(SAMPLE_TRACK.audioUrl);
-        
-        await playSound();
-        
-        console.log("Audio initialized and sample track loaded");
-      } catch (error) {
-        console.error("Failed to initialize audio:", error);
-      }
-    };
-    
-    setupAudio();
-    
+    initializeAudio();
     return () => {
       unloadSound();
     };
@@ -59,9 +34,7 @@ export default function MiniPlayer() {
     }
   };
 
-  if (!currentTrack) {
-    return null;
-  }
+  if (!currentTrack) return null;
 
   return (
     <TouchableOpacity
@@ -69,25 +42,13 @@ export default function MiniPlayer() {
       activeOpacity={0.8}
       style={styles.container}
     >
-      <Image
-        source={{ uri: currentTrack.imgUrl }}
-        style={styles.albumArt}
-        resizeMode="cover"
-      />
+      <Image source={{ uri: currentTrack.imgUrl }} style={styles.albumArt} />
       <View style={styles.trackInfo}>
-        <Text numberOfLines={1} style={styles.trackName}>
-          {currentTrack.songName}
-        </Text>
-        <Text numberOfLines={1} style={styles.artist}>
-          {currentTrack.singerName}
-        </Text>
+        <Text numberOfLines={1} style={styles.trackName}>{currentTrack.songName}</Text>
+        <Text numberOfLines={1} style={styles.artist}>{currentTrack.singerName}</Text>
       </View>
       <TouchableOpacity onPress={togglePlayPause}>
-        <Ionicons
-          name={isPlaying ? "pause" : "play"}
-          size={28}
-          color={theme.colors.black}
-        />
+        <Ionicons name={isPlaying ? "pause" : "play"} size={28} color={theme.colors.black} />
       </TouchableOpacity>
     </TouchableOpacity>
   );

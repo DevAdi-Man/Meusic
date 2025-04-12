@@ -34,7 +34,7 @@ const MusicShowcase: React.FC<SHowCaseProps> = ({
 }) => {
   return (
     <TouchableOpacity
-      onPress={()=> onPress}
+      onPress={onPress}
       style={[
         styles.container,
         {
