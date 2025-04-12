@@ -2,13 +2,10 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   TouchableOpacity,
   FlatList,
-  ScrollView,
-  Button,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import SearchBar from "../../components/SearchBar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { hp, wp } from "../../helper/common";
@@ -17,13 +14,35 @@ import { fonts } from "../../styles/font";
 import { theme } from "../../styles/theme";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Card from "../../components/Card";
-
-const data = Array.from({ length: 32 }, (_, i) => ({
-  id: i.toString(),
-  title: `Item ${i + 1}`,
-}));
-
+import { useCategory } from "../../store/useCategoryStore";
+import { fetchBrowseCategories } from "../../api/browseCategories.api";
+const getRandomColor = () => {
+  const colors = [
+    "#FFB6C1",
+    "#FFD700",
+    "#98FB98",
+    "#87CEFA",
+    "#FF69B4",
+    "#FFA07A",
+    "#9370DB",
+  ];
+  return colors[Math.floor(Math.random() * colors.length)];
+};
 export default function ExploreScreen() {
+  const { categories, setCategories } = useCategory();
+  useEffect(() => {
+    const fetchBrowser = async () => {
+      try {
+        const data = await fetchBrowseCategories(46);
+        setCategories(data);
+      } catch (error) {
+        throw error;
+      }
+    };
+
+    fetchBrowser();
+  }, []);
+
   return (
     <SafeAreaView style={styles.safeareaContainer}>
       <View style={styles.container}>
@@ -53,10 +72,16 @@ export default function ExploreScreen() {
 
         {/* FlatList */}
         <FlatList
-          data={data}
+          data={categories}
           keyExtractor={(item) => item.id}
           numColumns={2}
-          renderItem={({ item }) => <Card title={item.title} />}
+          renderItem={({ item }) => (
+            <Card
+              title={item.name}
+              imgUrl={item.icons[0]?.url}
+              backgroundColor={getRandomColor()}
+            />
+          )}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled" // ✅ Fix scrolling issue caused by touchable components
           contentContainerStyle={styles.flatlistContent}

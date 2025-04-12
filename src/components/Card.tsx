@@ -6,16 +6,16 @@ import { theme } from "../styles/theme";
 
 interface CardProps {
   title?: string;
+  imgUrl?: string;
+  backgroundColor?: string;
 }
 
-const Card: React.FC<CardProps> = ({ title }) => {
+const Card: React.FC<CardProps> = ({ title, imgUrl, backgroundColor = "#ddd" }) => {
   return (
-    <View style={styles.container}>
-      {/* Left Side - Title */}
+    <View style={[styles.container, { backgroundColor }]}>
       <Text style={styles.testText}>{title}</Text>
-      {/* Right Side -- image */}
       <View style={styles.imageContainer}>
-        <Image source={require("../../assets/icon.png")} style={styles.cardImage} />
+        <Image source={{ uri: imgUrl }} style={styles.cardImage} />
       </View>
     </View>
   );
@@ -25,23 +25,22 @@ export default Card;
 
 const styles = StyleSheet.create({
   container: {
-    borderWidth: 2,
+    // borderWidth: 2,
     marginTop: 20,
     width: wp(42),
     height: hp(10),
     marginHorizontal: 12,
     borderRadius: 7,
     flexDirection: "row",
-    overflow:'hidden'
+    overflow: "hidden",
   },
-  // test only
   testText: {
-    fontFamily:fonts.SemiBold,
-    fontSize:wp(5),
-    fontWeight:theme.fontWeight.semiBold,
+    fontFamily: fonts.SemiBold,
+    fontSize: wp(4.2),
+    fontWeight: theme.fontWeight.semiBold,
     width: "50%",
-    paddingLeft:4,
-    paddingTop:4,
+    paddingLeft: 4,
+    paddingTop: 4,
   },
   imageContainer: {
     position: "absolute",

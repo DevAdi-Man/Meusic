@@ -18,7 +18,8 @@ export default function TopTrack() {
         const data = await fetchTopTrack(4);
         setTracks(data);
       } catch (error) {
-        console.error("Failed to load top tracks", error);
+        console.log("Failed to load top tracks", error);
+        throw error;
       }
     };
     loadTopTracks();
