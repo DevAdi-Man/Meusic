@@ -8,7 +8,7 @@ export const fetchBrowseCategories = async (limit=50)=>{
                 locale:"en_IN"
             }
         });
-        console.log("categories data --> ",response.data.categories.items);
+        // console.log("categories data --> ",response.data.categories.items);
         
         return response.data.categories.items;
     } catch (error) {

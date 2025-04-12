@@ -1,5 +1,12 @@
-import { View, Text, StyleSheet, Image, Pressable } from "react-native";
-import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Pressable,
+  ActivityIndicator,
+} from "react-native";
+import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { hp, wp } from "../../helper/common";
 import { theme } from "../../styles/theme";
@@ -7,82 +14,113 @@ import { fonts } from "../../styles/font";
 import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import MenuItem from "../../components/MenuItem";
+import { usePlayedHistory } from "../../store/usePlayedHistoryStore";
+import { fetchSongPlayedHistory } from "../../api/playerHistory.api";
+import { useAuthStore } from "../../store/authStore";
+import { FlashList } from "@shopify/flash-list";
+import MusicShowcase from "../../components/MusicShowcase";
+import useAudioStore from "../../store/usePlayerStore";
 
 const LibraryScreen = () => {
   const navigation = useNavigation<any>();
-  const handleMenuPress = (title: string) => {
-    navigation.navigate(title);
+  const { recentlyPlayed, setRecentlyPlayed, loading, setLoading, setError } =
+    usePlayedHistory();
+  const { accessToken } = useAuthStore();
+
+  const { setCurrentTrack, loadAudio, playSound } = useAudioStore();
+  const loadHistory = async () => {
+    if (!accessToken) return;
+    try {
+      setLoading(true);
+      const history = await fetchSongPlayedHistory(accessToken, 15);
+      setRecentlyPlayed(history);
+    } catch (error) {
+      setError("Unable to fetch song history.");
+    } finally {
+      setLoading(false);
+    }
   };
+
+  useEffect(() => {
+    loadHistory();
+  }, [accessToken]);
+
   const menuData = [
     {
       title: "Playlists",
       icon: "library-music",
       iconLibrary: "MaterialIcons",
-      onPress: () => handleMenuPress("Playlists"),
+      onPress: () => navigation.navigate("Playlists"),
     },
     {
       title: "Downloads",
       icon: "download",
       iconLibrary: "FontAwesome",
-      onPress: () => handleMenuPress("Downloads"),
+      onPress: () => navigation.navigate("Downloads"),
     },
     {
       title: "Podcasts",
       icon: "podcasts",
       iconLibrary: "MaterialIcons",
-      onPress: () => handleMenuPress("Podcasts"),
+      onPress: () => navigation.navigate("Podcasts"),
     },
     {
       title: "Albums",
       icon: "album",
       iconLibrary: "MaterialIcons",
-      onPress: () => handleMenuPress("Albums"),
+      onPress: () => navigation.navigate("Albums"),
     },
     {
       title: "Songs",
       icon: "music",
       iconLibrary: "FontAwesome",
-      onPress: () => handleMenuPress("Songs"),
+      onPress: () => navigation.navigate("Songs"),
     },
     {
       title: "Artists",
       icon: "people",
       iconLibrary: "MaterialIcons",
-      onPress: () => handleMenuPress("Artists"),
+      onPress: () => navigation.navigate("Artists"),
     },
   ];
+  const handlePlayTrack = async (track: any) => {
+    try {
+      console.log("Pressed track:", track.songName, track.audioUrl);
 
+      const isValidRemoteUrl =
+        typeof track.audioUrl === "string" && track.audioUrl.startsWith("http");
+
+      const audioUri = isValidRemoteUrl ? track.audioUrl : "fallback"; // just a flag, actual fallback is handled in store
+
+      setCurrentTrack(track);
+      await loadAudio(audioUri);
+      await playSound();
+    } catch (error) {
+      console.error("Error playing track:", error);
+    }
+  };
   return (
     <SafeAreaView style={styles.container}>
-      {/* Library Header Seaction  */}
+      {/* Header */}
       <View style={styles.safeArea}>
         <View style={styles.iconsDiv}>
-          {/* icons */}
           <Image
             source={require("../../../assets/musicNote.png")}
             style={styles.svgIcon}
           />
-          {/* Screen title */}
           <Text style={styles.Htitle}>My Library</Text>
         </View>
-        {/* search and 3 dot icons */}
         <View style={styles.iconsDiv}>
-          {/* search icon */}
-          <Feather
-            name="search"
-            size={32}
-            style={styles.headerIcons}
-            color="black"
-          />
-          {/* 3 dot icons */}
+          <Feather name="search" size={32} style={styles.headerIcons} />
           <MaterialCommunityIcons
             name="dots-horizontal-circle-outline"
-            color="black"
-            style={[styles.headerIcons]}
+            size={32}
+            style={styles.headerIcons}
           />
         </View>
       </View>
-      {/* Your History */}
+
+      {/* History Section */}
       <View style={styles.TrendingItem}>
         <Text style={styles.TrendingTextTitle}>Your History</Text>
         <Pressable onPress={() => navigation.navigate("Historys")}>
@@ -90,10 +128,33 @@ const LibraryScreen = () => {
         </Pressable>
       </View>
 
-      {/* dividing line */}
+      {loading ? (
+        <ActivityIndicator size="large" color={theme.colors.green} />
+      ) : (
+        <FlashList
+          estimatedItemSize={20}
+          data={recentlyPlayed}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <MusicShowcase
+              imgUrl={item.imgUrl}
+              singerName={item.singerName}
+              songName={item.songName}
+              onPress={() => {
+                console.log("Pressed track:", item.songName);
+                handlePlayTrack(item);
+              }}
+            />
+          )}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.listContainer}
+        />
+      )}
+
       <View style={styles.line} />
 
-      {/* Services */}
+      {/* Menu Items */}
       <View style={{ flex: 1, paddingHorizontal: 15, paddingTop: 20 }}>
         {menuData.map((item, index) => (
           <MenuItem
@@ -127,7 +188,6 @@ const styles = StyleSheet.create({
     width: wp(10),
     height: hp(4.3),
   },
-  // header title
   Htitle: {
     fontFamily: fonts.SemiBold,
     fontWeight: theme.fontWeight.semiBold,
@@ -170,6 +230,8 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     borderCurve: "continuous",
   },
+  listContainer: { paddingHorizontal: 10 },
+  row: { justifyContent: "space-around" },
 });
 
 export default LibraryScreen;
